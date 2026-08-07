@@ -1,7 +1,7 @@
 {
- "generated": "2026-08-07T02:16:43Z",
- "source_generated": "2026-08-07T02:07:44Z",
- "treasuries": 71,
+ "generated": "2026-08-07T06:46:22Z",
+ "source_generated": "2026-08-07T06:36:42Z",
+ "treasuries": 72,
  "bound": 30,
  "coins": [
   {
@@ -46,9 +46,9 @@
    "epoch_sec": 3600,
    "curve": "0x592ad9f5444fb927ebbb13620ef8bc9993ad90b2",
    "creator": "0xffec0df753b6171e8cd6cf3d13d872c012242f00",
-   "rounds_n": 11,
-   "last_round": 1786065461,
-   "next_payout": 1786069061,
+   "rounds_n": 14,
+   "last_round": 1786082335,
+   "next_payout": 1786085935,
    "deployed_at": "1785900416",
    "bound_at": "1785901407"
   },
@@ -110,9 +110,9 @@
    "epoch_sec": 21600,
    "curve": "0xa02a9c1a830ba327663d6a0bb33ea5b73c0cd6b2",
    "creator": "0x51994b01290087fc8deda00756af9192712f51c3",
-   "rounds_n": 8,
-   "last_round": 1786056899,
-   "next_payout": 1786078499,
+   "rounds_n": 9,
+   "last_round": 1786078634,
+   "next_payout": 1786100234,
    "deployed_at": "1785904773",
    "bound_at": "1785905077"
   },
@@ -398,9 +398,9 @@
    "epoch_sec": 900,
    "curve": "0x22d0964388d341f37fc810c17c50425ae65b7be4",
    "creator": "0x15849b9caf8d02c536108b8eef94ef3290d61986",
-   "rounds_n": 153,
-   "last_round": 1786067393,
-   "next_payout": 1786068293,
+   "rounds_n": 161,
+   "last_round": 1786083188,
+   "next_payout": 1786084088,
    "deployed_at": "1785884530",
    "bound_at": "1785884658"
   },
@@ -419,6 +419,22 @@
    "next_payout": 1786030803,
    "deployed_at": "1785905842",
    "bound_at": "1785906159"
+  },
+  {
+   "treasury": "0x68090c720b09f86b5187b4a08bff2fa4eb4919ea",
+   "coin": null,
+   "sym": null,
+   "name": null,
+   "basket": "[[\"0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC\",1432],[\"0x86923f96303D656E4aa86D9d42D1e57ad2023fdC\",1428],[\"0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A\",1428],[\"0xB90A19fF0Af67f7779afF50A882A9CfF42446400\",1428],[\"0xc72b96e0E48ecd4DC75E1e45396e26300BC39681\",1428],[\"0xfF080c8ce2E5feadaCa0Da81314Ae59D232d4afD\",1428],[\"0xc01aA1fECeC0605b13bc84874ff7256C0f5F562a\",1428]]",
+   "distribute_bps": 10000,
+   "epoch_sec": 21600,
+   "curve": null,
+   "creator": "0x86ed8d965561418ec4fc347721bac919487c75af",
+   "rounds_n": 0,
+   "last_round": null,
+   "next_payout": null,
+   "deployed_at": "1786084023",
+   "bound_at": null
   },
   {
    "treasury": "0x7a39819743e7620bf4b3e86b3613029ee5012a89",
@@ -734,9 +750,9 @@
    "epoch_sec": 900,
    "curve": "0x9f06f38608c2dd63dd5ab0eb6471c0dbaeb395b8",
    "creator": "0x1438dd98bb9ea51181c7782c4a8ca5662f6290e4",
-   "rounds_n": 35,
-   "last_round": 1786068351,
-   "next_payout": 1786069251,
+   "rounds_n": 47,
+   "last_round": 1786084473,
+   "next_payout": 1786085373,
    "deployed_at": "1785882521",
    "bound_at": "1785882666"
   },
@@ -750,9 +766,9 @@
    "epoch_sec": 21600,
    "curve": "0xde68db0fd870ba8e5dfe49e20a23696b8e5e23c9",
    "creator": "0x5ce6e47a796f69a72e91156c24d03baa16544d3e",
-   "rounds_n": 28,
-   "last_round": 1786046929,
-   "next_payout": 1786068529,
+   "rounds_n": 35,
+   "last_round": 1786068620,
+   "next_payout": 1786090220,
    "deployed_at": "1785910192",
    "bound_at": "1785910745"
   },
@@ -1143,13 +1159,12 @@
  ],
  "keeper": {
   "address": "0x179a1513adc677042654d904a0fb051577f67c4a",
-  "gas_eth": null,
-  "last_tx": "2026-08-07T02:06:44.000000Z",
+  "gas_eth": 0.05099,
+  "last_tx": "2026-08-07T06:36:44.000000Z",
   "claims_in_sample": 1,
   "methods": {
-   "0x9aa3895d": 43,
+   "0x9aa3895d": 44,
    "0x4733aa85": 3,
-   "?": 1,
    "0xea485a48": 1,
    "claimProtocol": 1,
    "harvest": 1
