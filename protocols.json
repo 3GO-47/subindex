@@ -1,8 +1,8 @@
 {
- "generated": "2026-08-07T06:46:22Z",
- "source_generated": "2026-08-07T06:36:42Z",
- "treasuries": 72,
- "bound": 30,
+ "generated": "2026-08-07T11:03:39Z",
+ "source_generated": "2026-08-07T10:55:15Z",
+ "treasuries": 75,
+ "bound": 32,
  "coins": [
   {
    "treasury": "0x072d5ddeb54ff77cab08aab87a4e26d21374d577",
@@ -46,9 +46,9 @@
    "epoch_sec": 3600,
    "curve": "0x592ad9f5444fb927ebbb13620ef8bc9993ad90b2",
    "creator": "0xffec0df753b6171e8cd6cf3d13d872c012242f00",
-   "rounds_n": 14,
-   "last_round": 1786082335,
-   "next_payout": 1786085935,
+   "rounds_n": 17,
+   "last_round": 1786099309,
+   "next_payout": 1786102909,
    "deployed_at": "1785900416",
    "bound_at": "1785901407"
   },
@@ -62,9 +62,9 @@
    "epoch_sec": 3600,
    "curve": "0x1a189a6cb5b7e96f87f6c36ec05d506cb755ccb0",
    "creator": "0xe7420f4b26a565186ccdf5c3d356c62b127c81ef",
-   "rounds_n": 2,
-   "last_round": 1785996935,
-   "next_payout": 1786000535,
+   "rounds_n": 3,
+   "last_round": 1786099648,
+   "next_payout": 1786103248,
    "deployed_at": "1785926256",
    "bound_at": "1785926850"
   },
@@ -398,9 +398,9 @@
    "epoch_sec": 900,
    "curve": "0x22d0964388d341f37fc810c17c50425ae65b7be4",
    "creator": "0x15849b9caf8d02c536108b8eef94ef3290d61986",
-   "rounds_n": 161,
-   "last_round": 1786083188,
-   "next_payout": 1786084088,
+   "rounds_n": 172,
+   "last_round": 1786099574,
+   "next_payout": 1786100474,
    "deployed_at": "1785884530",
    "bound_at": "1785884658"
   },
@@ -422,19 +422,19 @@
   },
   {
    "treasury": "0x68090c720b09f86b5187b4a08bff2fa4eb4919ea",
-   "coin": null,
-   "sym": null,
-   "name": null,
+   "coin": "0x8bef80fa153b80f573170e0495594661d74a080c",
+   "sym": "AISTOCKS",
+   "name": "AI Stocks Index",
    "basket": "[[\"0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC\",1432],[\"0x86923f96303D656E4aa86D9d42D1e57ad2023fdC\",1428],[\"0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A\",1428],[\"0xB90A19fF0Af67f7779afF50A882A9CfF42446400\",1428],[\"0xc72b96e0E48ecd4DC75E1e45396e26300BC39681\",1428],[\"0xfF080c8ce2E5feadaCa0Da81314Ae59D232d4afD\",1428],[\"0xc01aA1fECeC0605b13bc84874ff7256C0f5F562a\",1428]]",
    "distribute_bps": 10000,
    "epoch_sec": 21600,
-   "curve": null,
+   "curve": "0x408bcdaeed2eb4e5766c710c1438109aa973d744",
    "creator": "0x86ed8d965561418ec4fc347721bac919487c75af",
    "rounds_n": 0,
    "last_round": null,
-   "next_payout": null,
+   "next_payout": 1786106999,
    "deployed_at": "1786084023",
-   "bound_at": null
+   "bound_at": "1786085399"
   },
   {
    "treasury": "0x7a39819743e7620bf4b3e86b3613029ee5012a89",
@@ -702,9 +702,9 @@
    "epoch_sec": 21600,
    "curve": "0x0d88611bb509de2563cd204575d28d106601121f",
    "creator": "0x7c7b9918dc8b46a115530c4c871d47b91fe9cdb5",
-   "rounds_n": 2,
-   "last_round": 1786063972,
-   "next_payout": 1786085572,
+   "rounds_n": 3,
+   "last_round": 1786085727,
+   "next_payout": 1786107327,
    "deployed_at": "1785976663",
    "bound_at": "1785977445"
   },
@@ -741,6 +741,22 @@
    "bound_at": null
   },
   {
+   "treasury": "0xb8a571d702133dbb453d91967faad05a1af0b127",
+   "coin": "0x338417875770d33c993d5437c06b6aeab86eabfc",
+   "sym": "AISTOCKS",
+   "name": "AI Stocks Index",
+   "basket": "[[\"0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC\",1670],[\"0x86923f96303D656E4aa86D9d42D1e57ad2023fdC\",1666],[\"0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A\",1666],[\"0xB90A19fF0Af67f7779afF50A882A9CfF42446400\",1666],[\"0xc72b96e0E48ecd4DC75E1e45396e26300BC39681\",1666],[\"0xfF080c8ce2E5feadaCa0Da81314Ae59D232d4afD\",1666]]",
+   "distribute_bps": 10000,
+   "epoch_sec": 21600,
+   "curve": "0xb7310a684ad756bd028e132634c6ef4f72f48701",
+   "creator": "0x86ed8d965561418ec4fc347721bac919487c75af",
+   "rounds_n": 6,
+   "last_round": 1786099349,
+   "next_payout": 1786120949,
+   "deployed_at": "1786097800",
+   "bound_at": "1786098689"
+  },
+  {
    "treasury": "0xbe281330a1b639109f0b10e8bd3028537a710dc3",
    "coin": "0xdf696153121fdf4719c1868c9b16751c778caaad",
    "sym": "GME",
@@ -750,9 +766,9 @@
    "epoch_sec": 900,
    "curve": "0x9f06f38608c2dd63dd5ab0eb6471c0dbaeb395b8",
    "creator": "0x1438dd98bb9ea51181c7782c4a8ca5662f6290e4",
-   "rounds_n": 47,
-   "last_round": 1786084473,
-   "next_payout": 1786085373,
+   "rounds_n": 60,
+   "last_round": 1786099537,
+   "next_payout": 1786100437,
    "deployed_at": "1785882521",
    "bound_at": "1785882666"
   },
@@ -802,6 +818,22 @@
    "last_round": null,
    "next_payout": null,
    "deployed_at": "1785898666",
+   "bound_at": null
+  },
+  {
+   "treasury": "0xcbf03287457c9fb7970ebd28a7ab4a77c9934f43",
+   "coin": null,
+   "sym": null,
+   "name": null,
+   "basket": "[[\"0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC\",1300],[\"0x5f10A1C971B69e47e059e1dC91901B59b3fB49C3\",1200],[\"0x8eF20885F94e3D9bc7eB3080279188Bd5ED7c08C\",1200],[\"0xfF080c8ce2E5feadaCa0Da81314Ae59D232d4afD\",900],[\"0x36046893810a7E7fCE501229d57dc3FC8c8716d0\",900],[\"0x58FfE4a942d3885bAa22D7520691F611EF09e7AA\",800],[\"0xc01aA1fECeC0605b13bc84874ff7256C0f5F562a\",700],[\"0x0f17206447090e464C277571124dD2688E48AEA9\",700],[\"0xB90A19fF0Af67f7779afF50A882A9CfF42446400\",700],[\"0xd917B029C761D264c6A312BBbcDA868658eF86a6\",700],[\"0x86923f96303D656E4aa86D9d42D1e57ad2023fdC\",900]]",
+   "distribute_bps": 9000,
+   "epoch_sec": 21600,
+   "curve": null,
+   "creator": "0x1f018b0eb1bf9e57e5034346936504cbe0f69d38",
+   "rounds_n": 0,
+   "last_round": null,
+   "next_payout": null,
+   "deployed_at": "1786097687",
    "bound_at": null
   },
   {
@@ -899,6 +931,22 @@
    "next_payout": 1785998730,
    "deployed_at": "1785911635",
    "bound_at": "1785912330"
+  },
+  {
+   "treasury": "0xe04f085747bf456231a738b829f3b1b293efae94",
+   "coin": null,
+   "sym": null,
+   "name": null,
+   "basket": "[[\"0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC\",1432],[\"0x86923f96303D656E4aa86D9d42D1e57ad2023fdC\",1428],[\"0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A\",1428],[\"0xB90A19fF0Af67f7779afF50A882A9CfF42446400\",1428],[\"0xc72b96e0E48ecd4DC75E1e45396e26300BC39681\",1428],[\"0xfF080c8ce2E5feadaCa0Da81314Ae59D232d4afD\",1428],[\"0xc01aA1fECeC0605b13bc84874ff7256C0f5F562a\",1428]]",
+   "distribute_bps": 10000,
+   "epoch_sec": 21600,
+   "curve": null,
+   "creator": "0x86ed8d965561418ec4fc347721bac919487c75af",
+   "rounds_n": 0,
+   "last_round": null,
+   "next_payout": null,
+   "deployed_at": "1786088484",
+   "bound_at": null
   },
   {
    "treasury": "0xe346308bbc7d65550ee51611a5a3f4b163768e0b",
@@ -1159,15 +1207,13 @@
  ],
  "keeper": {
   "address": "0x179a1513adc677042654d904a0fb051577f67c4a",
-  "gas_eth": 0.05099,
-  "last_tx": "2026-08-07T06:36:44.000000Z",
-  "claims_in_sample": 1,
+  "gas_eth": 0.03026,
+  "last_tx": "2026-08-07T10:54:33.000000Z",
+  "claims_in_sample": 0,
   "methods": {
-   "0x9aa3895d": 44,
-   "0x4733aa85": 3,
-   "0xea485a48": 1,
-   "claimProtocol": 1,
-   "harvest": 1
+   "0x9aa3895d": 48,
+   "0x4733aa85": 1,
+   "0xea485a48": 1
   }
  },
  "notice": "Public chain facts only. SubIndex is independent and unaffiliated with The Index, Robinhood, or any listed project. Not investment advice."
