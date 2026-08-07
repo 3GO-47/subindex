@@ -1,0 +1,41 @@
+# Cloudflare Pages header rules. This file is consumed at deploy time and is not
+# served to visitors.
+#
+# The data snapshot must never be cached at the edge: it is rewritten every push
+# and a stale copy would silently show old payout counts while the rest of the
+# page reads live from chain. app.js also cache-busts with ?t=, so this is the
+# belt to that suspenders.
+/protocols.json
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Brand assets are content-addressed by name and never change in place, so they
+# can be cached hard — this is the only heavy bytes on the page.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The page shell can be cached briefly — long enough to be fast, short enough
+# that a fix reaches readers within minutes.
+#
+# CONTENT-SECURITY-POLICY. This page asks people to paste a wallet address, so the
+# risk worth engineering against is injected script exfiltrating it. The host list
+# below was derived by auditing every https:// literal in index.html and app.js:
+#   script  : self only (+ 'unsafe-inline' for the pre-paint theme script — a nonce
+#             is impossible in a static _headers file. It still blocks EXTERNAL
+#             script injection, which is the real attack surface.)
+#   style   : self + fonts.googleapis.com (the @import)
+#   font    : fonts.gstatic.com (the actual font files that CSS pulls)
+#   img     : financialmodelingprep + raw.githubusercontent (stock logos, 2 sources)
+#   connect : dexscreener, blockscout, RH RPC — the only three data feeds
+# IF YOU ADD A DATA SOURCE, add it to connect-src or the fetch is silently blocked.
+# NOTE: comments must start at column 0. Cloudflare parses indented lines inside a
+# rule block as header definitions, so an indented # would corrupt the block.
+
+# The page shell can be cached briefly — long enough to be fast, short enough
+# that a fix reaches readers within minutes.
+/*
+  Cache-Control: public, max-age=300, must-revalidate
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://financialmodelingprep.com https://raw.githubusercontent.com; connect-src 'self' https://api.dexscreener.com https://robinhoodchain.blockscout.com https://rpc.mainnet.chain.robinhood.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; object-src 'none'; upgrade-insecure-requests

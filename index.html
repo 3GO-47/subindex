@@ -1,0 +1,684 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SubIndex — onchain yield terminal · Robinhood Chain</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#edece8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SubIndex">
+<meta property="og:image" content="assets/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SUBINDEX — same basket, supports INDEX">
+<meta name="twitter:image" content="assets/og.jpg">
+<meta property="og:title" content="$SUBINDEX — same basket, supports INDEX | SubIndex">
+<meta property="og:description" content="$SUBINDEX pays holders a 17-stock basket every 15 minutes, 100% to holders, 0% to the creator — deliberately the most demanding treasury on the Index launchpad. Live payout clocks for every protocol, keeper liveness, and read-only dividend tracking for any wallet.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@TheSubIndexFi">
+<meta name="twitter:title" content="$SUBINDEX — same basket. Supports INDEX.">
+<meta name="twitter:description" content="17 reward assets. 15-minute epoch. 100% to holders. Live payout clocks for every fee-treasury coin on Robinhood Chain, plus read-only dividend tracking for any wallet. Facts and method, not verdicts.">
+<meta name="description" content="Independent terminal for distribution protocols on Robinhood Chain: live payout clocks, keeper liveness, and read-only dividend tracking for any wallet. Unaffiliated. Not investment advice.">
+<style>
+/* ── Theme sampled from theindex.finance's APP pages (not the marketing page).
+   Exact values lifted from live computed styles:
+     paper #edece8 · ink #191918 · card #fff / rgba(255,255,255,.9)
+     hairline #eceae6 · neutral bars #c5c4bc · ACCENT BARS #a9c0de (cornflower)
+     eyebrow labels: 11px / 600 / 1.32px tracking / #a3a39c, "/ 01 / LABEL"
+   Blue is the data colour throughout; stock logos come from the same CDN the
+   Index app uses. Layout stays full-bleed and dense per the no-space mandate. ── */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{
+--paper:#edece8;--paper2:#e4e3dd;--card:#fff;--ink:#191918;--ink2:#41413c;
+--mut:#63635c;--dim:#93938c;--hair:#eceae6;--hair2:#dcdad3;
+--blu:#4a72a8;--blu1:#a9c0de;--blu2:#dce6f3;--blu3:#eef3fa;--bluD:#2f4f7a;
+--neu:#c5c4bc;--up:#1a6b45;--dn:#a83a30;--gold:#8a6a1f;--vio:#6b4fa8;
+--soft:#fbfbfa;--sans:'Instrument Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+--mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+html[data-theme=dark]{
+--paper:#0e1114;--paper2:#191e24;--card:#151a1f;--soft:#12171b;--ink:#e9eaec;--ink2:#c2c7cd;
+--mut:#98a0a8;--dim:#6d757d;--hair:#232930;--hair2:#2f363e;
+--blu:#7aa7dd;--blu1:#5c85b8;--blu2:#1d2836;--blu3:#161d25;--bluD:#a9c8ea;
+--neu:#454c54;--up:#35d190;--dn:#ff6f64;--gold:#dfb457;--vio:#a893da}
+/* Logos are mostly dark-on-transparent PNGs, so on a dark page they vanish
+   unless they sit on something light. A full white plate glared badly (Josh
+   flagged it), so instead: a soft near-white chip, slightly inset, with the mark
+   scaled to fit inside it — readable without punching a hole in the page. */
+html[data-theme=dark] .lg{box-shadow:inset 0 0 0 1px rgba(255,255,255,.10)}
+html[data-theme=dark] .lg img{background:#e9eaec;padding:1px;border-radius:3px;
+ filter:saturate(1.05) contrast(1.02)}
+html[data-theme=dark] .b-curve{color:#f0c470;background:#3a2b0e;box-shadow:inset 0 0 0 1px #5c4415}
+html[data-theme=dark] .pt.cv{color:#f0c470;background:#3a2b0e;box-shadow:inset 0 0 0 1px #5c4415}
+html[data-theme=dark] .bkt span{background:var(--blu2)}
+html[data-theme=dark] .bkt span em{color:var(--blu)}
+html[data-theme=dark] .chart .cl{stroke:#e9eaec}
+html[data-theme=dark] .clg .sw.l{border-top-color:#e9eaec}
+html[data-theme=dark] .spark.k i{background:#cfd4d9}
+html[data-theme=dark] .bar .tr i.k{background:#cfd4d9}
+html[data-theme=dark] #toast{background:#2a3138}
+html[data-theme=dark] .top .chip,html[data-theme=dark] nav a.on{color:#0d1014}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font:15px/1.55 var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--blu);text-decoration:none}a:hover{text-decoration:underline}
+button{font:inherit}
+.app{display:flex;height:100vh}
+/* ── sidebar: white, blue-ink active state ── */
+aside{width:174px;flex:0 0 174px;background:var(--card);border-right:1px solid var(--hair);display:flex;flex-direction:column}
+.logo{padding:15px 14px 12px;border-bottom:1px solid var(--hair)}
+.logo h1{font-size:17px;font-weight:600;letter-spacing:-.025em;color:var(--ink);white-space:nowrap}
+.logo h1 span{color:var(--blu)}
+.logo .sub{font-size:8.5px;letter-spacing:.14em;color:var(--dim);margin-top:4px;text-transform:uppercase;font-weight:600}
+nav{padding:8px;flex:1;overflow-y:auto}
+nav a{display:flex;align-items:center;gap:9px;padding:9px 10px;color:var(--ink2);border-radius:7px;
+font-size:11.5px;font-weight:700;letter-spacing:.09em;cursor:pointer;text-transform:uppercase;margin-bottom:2px}
+nav a:hover{background:var(--blu3);color:var(--bluD);text-decoration:none}
+nav a.on{background:var(--blu);color:#fff}
+nav a .ic{width:12px;text-align:center;font-size:11px}
+nav a .k{margin-left:auto;color:var(--dim);font-size:9px;font-weight:500}
+nav a.on .k{color:rgba(255,255,255,.6)}
+.sfoot{padding:11px 14px;border-top:1px solid var(--hair);font-size:9px;color:var(--dim);line-height:1.7}
+main{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--paper)}
+/* ── ticker rail ── */
+.top{display:flex;align-items:center;gap:15px;padding:10px 16px;background:var(--card);
+border-bottom:1px solid var(--hair);font-size:12px;font-weight:500;color:var(--ink2);white-space:nowrap;overflow-x:auto;font-family:var(--mono)}
+.top .chip{background:var(--blu);color:#fff;border-radius:5px;padding:3px 9px;font-size:9px;
+letter-spacing:.13em;font-weight:700;font-family:var(--sans)}
+.top b{color:var(--ink);font-weight:600}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;letter-spacing:.11em;color:var(--dim);
+text-transform:uppercase;font-weight:600;font-family:var(--sans)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--blu)}
+.dot.warn{background:#c8951f}.dot.bad{background:var(--dn)}
+.content{flex:1;overflow-y:auto;padding:12px 14px 14px;display:flex;flex-direction:column}
+.view{display:none}
+/* Fill the fold. A view is a flex column that is at least as tall as the
+   viewport, and its last block stretches — so content ends where the screen
+   ends rather than floating above a slab of empty paper. */
+.view.on{display:flex;flex-direction:column;flex:1;min-height:0}
+.view.on>.grow{flex:1;min-height:0;display:flex;flex-direction:column}
+.view.on>.grow>.tw{flex:1;min-height:0}
+.panel{display:flex;flex-direction:column}
+.panel>.pb,.panel>.tw{flex:1 1 auto}
+.cols{align-items:stretch}
+.cols>div,.cols>.panel{display:flex;flex-direction:column}
+.cols>div>.panel{flex:1}
+/* ── KPI cards, Index-style: slash eyebrow + value + bar sparkline ── */
+.mega{display:grid;grid-template-columns:repeat(auto-fit,minmax(212px,1fr));gap:10px;margin-bottom:12px}
+/* Cards have been SETTING --c per card all along; the CSS just never used it.
+   The accent stripe is what makes a wall of KPI cards scannable. */
+.mg{background:var(--card);border:1px solid var(--hair);border-radius:10px;padding:12px 14px 10px;
+display:flex;flex-direction:column;box-shadow:inset 0 3px 0 var(--c,var(--blu1))}
+.eye{font-size:10.5px;letter-spacing:.12em;color:var(--mut);text-transform:uppercase;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mg .n{font-size:29px;font-weight:600;margin:5px 0 1px;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.mg .s{font-size:11.5px;color:var(--mut);line-height:1.5}
+.spark{display:flex;align-items:flex-end;gap:1.5px;height:30px;margin-top:9px}
+.spark i{flex:1;background:var(--neu);border-radius:1px;min-height:2px}
+.spark.b i{background:var(--blu1)}
+.spark.k i{background:var(--ink)}
+.sparkx{display:flex;justify-content:space-between;font-size:8px;letter-spacing:.1em;color:var(--dim);margin-top:4px;font-weight:600}
+/* ── panels ── */
+.panel{background:var(--card);border:1px solid var(--hair);border-radius:10px;margin-bottom:12px;overflow:hidden}
+.ph{display:flex;align-items:baseline;gap:10px;padding:10px 14px;border-bottom:1px solid var(--hair)}
+.ph h2{font-size:16px;letter-spacing:-.015em;font-weight:600;color:var(--ink)}
+.ph h2::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--pc,var(--blu1));margin-right:8px;vertical-align:baseline}
+.ph .d{margin-left:auto;color:var(--mut);font-size:10.5px;text-align:right;line-height:1.45;max-width:58%}
+.pb{padding:11px 14px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cols3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px}
+@media(max-width:1100px){.cols,.cols3{grid-template-columns:1fr}}
+/* ── tables ── */
+.tw{overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px;font-weight:500;font-family:var(--mono);font-variant-numeric:tabular-nums}
+thead th{position:sticky;top:0;z-index:3;background:var(--card);font-size:9.5px;letter-spacing:.1em;
+color:var(--mut);text-transform:uppercase;text-align:right;padding:9px 8px;font-weight:700;font-family:var(--sans);
+white-space:nowrap;border-bottom:1px solid var(--hair2);cursor:pointer;user-select:none}
+thead th:hover{color:var(--blu)}
+th.l,td.l{text-align:left}
+td{padding:8px;border-top:1px solid var(--hair);text-align:right;white-space:nowrap}
+tbody tr:hover{background:var(--blu3)}
+tbody td:first-child,thead th:first-child{position:sticky;left:0;z-index:2;background:var(--card)}
+thead th:first-child{z-index:4}
+tbody tr:hover td:first-child{background:var(--blu3)}
+.tk{font-weight:700;font-family:var(--sans);font-size:13px}
+.up{color:var(--up)}.dn{color:var(--dn)}.am{color:var(--bluD)}.mu{color:var(--mut)}
+.di{color:var(--dim)}.dx{color:var(--dim);opacity:.75}
+/* ── stock logos: same CDN the Index app serves ── */
+.lg{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;
+border-radius:4px;vertical-align:-4px;margin-right:5px;color:#fff;font:700 9px/1 var(--sans);letter-spacing:0;
+flex:0 0 auto;overflow:hidden}
+.lg img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .25s ease;background:#fff}
+.lg.b{width:22px;height:22px;font-size:11px;border-radius:6px;vertical-align:-6px}
+.bkt{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
+.bkt span{display:inline-flex;align-items:center;background:var(--blu3);border-radius:5px;padding:2px 6px 2px 4px;font-size:11px;color:var(--bluD);font-family:var(--sans);font-weight:700}
+.bkt span em{font-style:normal;color:var(--blu);opacity:.75;margin-left:3px;font-weight:500}
+/* pairing tags — what the coin trades against, which decides how it pays */
+.pt{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.06em;padding:2px 5px;
+border-radius:4px;margin-left:4px;vertical-align:middle;white-space:nowrap;cursor:help;font-family:var(--sans)}
+.pt.dr{background:var(--blu);color:#fff}
+.pt.sk{background:var(--blu2);color:var(--bluD)}
+.pt.et{background:#eceaf6;color:#4b3f8f}
+.pt.us{background:#e8f2ec;color:#1a6b45}
+.pt.cv{background:#ffeec2;color:#8a5a00;box-shadow:inset 0 0 0 1px #f0d38f}
+.badge{display:inline-block;font-size:8.5px;letter-spacing:.08em;padding:2px 6px;border-radius:4px;
+margin-left:4px;vertical-align:middle;font-family:var(--sans);font-weight:700}
+.b-pay{color:#fff;background:var(--blu)}.b-full{color:var(--up);background:#e6f2eb}
+.b-curve{color:#8a5a00;background:#ffeec2;box-shadow:inset 0 0 0 1px #f0d38f}.b-hold{color:#fff;background:var(--vio)}
+/* ── bars / chips / feed ── */
+.bar{display:flex;align-items:center;gap:9px;margin:5px 0;font-size:12px;font-weight:500;font-family:var(--mono)}
+.bar .lb{width:124px;font-weight:700;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--sans);display:flex;align-items:center}
+.bar .tr{flex:1;height:10px;background:var(--paper2);border-radius:5px;overflow:hidden}
+.bar .tr i{display:block;height:100%;border-radius:5px;background:var(--blu1)}
+.bar .tr i.k{background:var(--ink)}
+.bar .tr i.n{background:var(--neu)}
+.bar .vl{width:88px;text-align:right;color:var(--mut);white-space:nowrap}
+/* text slot inside a bar row: ellipsises instead of clipping mid-word */
+.bar .sx{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+font-size:11px;color:var(--mut);display:flex;align-items:center;gap:4px}
+.bar .sx .bkt{flex-wrap:nowrap;overflow:hidden}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip2{border:1px solid var(--hair2);background:var(--card);border-radius:8px;padding:9px 12px;
+font-size:11px;font-weight:500;color:var(--mut);cursor:pointer;line-height:1.65}
+.chip2:hover{border-color:var(--blu);background:var(--blu3)}
+.chip2 b{color:var(--ink);font-size:11px;font-weight:600}.chip2 .r{color:var(--blu)}
+.feed{max-height:352px;overflow-y:auto;font-size:12px;font-weight:500;font-family:var(--mono)}
+.frow{display:grid;grid-template-columns:46px 1fr auto;gap:9px;padding:6px 14px;border-bottom:1px solid var(--hair);align-items:center}
+.frow:hover{background:var(--blu3)}
+dl.meth.two{column-count:2;column-gap:26px}
+dl.meth.two dt{break-after:avoid}
+dl.meth.two dd{break-inside:avoid;margin-bottom:11px}
+@media(max-width:1100px){dl.meth.two{column-count:1}}
+.note{color:var(--mut);font-size:11px;line-height:1.7;padding:10px 14px;border-top:1px solid var(--hair);background:var(--soft)}
+.note b{color:var(--ink)}
+code{background:var(--blu3);padding:2px 5px;border-radius:4px;font-size:10.5px;color:var(--bluD);font-family:var(--mono)}
+.spin{color:var(--dim);font-size:11px;padding:16px}
+.in{background:var(--card);border:1px solid var(--hair2);color:var(--ink);font:inherit;font-size:12px;
+padding:7px 10px;border-radius:7px;outline:none;min-width:0;font-family:var(--mono)}
+.in:focus{border-color:var(--blu)}
+.btn{background:var(--blu);border:0;color:#fff;font-weight:700;font-size:10.5px;letter-spacing:.13em;
+padding:8px 14px;border-radius:7px;cursor:pointer;text-transform:uppercase;font-family:var(--sans)}
+.btn:hover{background:var(--bluD)}
+.btn.gh{background:var(--card);border:1px solid var(--hair2);color:var(--mut)}
+.btn.gh:hover{border-color:var(--blu);color:var(--blu);background:var(--blu3)}
+.meth dt{color:var(--ink);font-size:12.5px;font-weight:600;margin-top:14px}
+.meth dd{color:var(--ink2);font-size:12.5px;margin:3px 0 0;line-height:1.75}
+.lgl{color:var(--mut);font-size:10.5px;line-height:1.75;padding:12px 14px;border-top:1px solid var(--hair);background:var(--soft)}
+/* $SUBINDEX identity block — this page is the coin's official home, so the
+   token's own facts lead, stated the same way we state everyone else's */
+.tok{background:var(--card);border:1px solid var(--hair2);border-radius:10px;padding:14px 18px;margin-bottom:12px}
+.tkh{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}
+.tkid{display:flex;gap:11px;align-items:flex-start;flex:1;min-width:300px}
+.tkid h1{font-size:21px;font-weight:600;letter-spacing:-.025em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tkb{background:var(--blu);color:#fff;font-size:8.5px;font-weight:700;letter-spacing:.13em;padding:3px 7px;border-radius:4px}
+.tksub{font-size:11.5px;color:var(--mut);line-height:1.6;margin-top:4px;max-width:620px}
+.tkl{display:flex;gap:7px;flex-wrap:wrap}
+.tkm{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:1px;background:var(--hair);
+border:1px solid var(--hair);border-radius:8px;overflow:hidden}
+.tkm .c{background:var(--card);padding:9px 11px}
+.tkm .c .l{font-size:8.5px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;font-weight:700}
+.tkm .c .v{font-size:16px;font-weight:600;margin-top:3px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.tkm .c .s{font-size:9px;color:var(--dim);margin-top:1px}
+.tkca{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:10px;padding-top:10px;
+border-top:1px solid var(--hair);font-size:10px}
+.tkca code{font-size:10.5px}
+.tkca .dx{font-weight:700;letter-spacing:.1em}
+/* flagged finding banner */
+.flag{background:var(--card);border:1px solid var(--blu1);border-left:4px solid var(--blu);
+border-radius:10px;padding:14px 18px 15px;margin-bottom:12px}
+.flag .fh{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.flag .ft{background:var(--blu);color:#fff;font-size:9px;font-weight:700;letter-spacing:.15em;
+padding:3px 8px;border-radius:4px}
+.flag .fd{font-size:9.5px;letter-spacing:.12em;color:var(--dim);font-weight:600}
+.flag h2{font-size:19px;font-weight:500;letter-spacing:-.02em;line-height:1.3;margin-bottom:9px;max-width:1050px}
+.flag p{font-size:12.5px;line-height:1.7;color:var(--mut);max-width:1050px;margin-bottom:7px}
+.flag p b{color:var(--ink);font-weight:600}
+.flag .fm{border-top:1px solid var(--hair);padding-top:9px;margin-top:10px;margin-bottom:0}
+.burst{padding:16px 12px}
+.burst .bh{font-size:13px;color:var(--ink2);line-height:1.5}
+.burst .bh b{color:var(--ink);font-weight:600}
+.burst .bl{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:9px}
+.burst .bl .fnode b{font-variant-numeric:tabular-nums}
+/* The not-connected state used to be one line of text above 1,200px of empty
+   paper. It now carries the explainer and a live preview of who is paying. */
+.wemp{display:grid;grid-template-columns:1.1fr 1fr;gap:22px;height:100%;align-content:start}
+.wemp h3{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.wemp p{font-size:12px;color:var(--mut);line-height:1.65;margin-bottom:11px}
+.wemp .st{display:flex;gap:9px;margin-bottom:10px}
+.wemp .st .no{flex:0 0 20px;height:20px;border-radius:5px;background:var(--blu);color:#fff;
+font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.wemp .st div{font-size:12px;color:var(--mut);line-height:1.6}
+.wemp .st b{color:var(--ink);font-weight:600}
+@media(max-width:1100px){.wemp{grid-template-columns:1fr}}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:9px;width:100%;flex:1}
+.ccard{border:1px solid var(--hair);border-radius:8px;padding:10px 12px;background:var(--soft);
+display:flex;flex-direction:column;gap:4px}
+.ccard .ct{font-size:12px;font-weight:600;color:var(--ink)}
+.ccard .ca{font-family:var(--mono);font-size:9.5px;color:var(--blu);word-break:break-all}
+.ccard .cd{font-size:11px;color:var(--mut);line-height:1.55}
+.pchips{display:flex;flex-wrap:wrap;gap:4px;margin:5px 0 11px 0}
+.pchip{font-size:9px;font-weight:700;letter-spacing:.04em;padding:2px 6px;border-radius:4px;
+background:var(--paper2);color:var(--mut);white-space:nowrap}
+.pchip b{color:var(--ink);margin-left:3px;font-variant-numeric:tabular-nums}
+.pchip.pay{background:var(--blu3);color:var(--bluD)}
+html[data-theme=dark] .pchip.pay{background:var(--blu2);color:var(--bluD)}
+.funnel{display:flex;flex-direction:column;gap:9px}
+.fst .fsl{font-size:11.5px;color:var(--mut);margin-bottom:3px}
+.fst .fsl b{font-size:16px;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;margin-right:5px}
+.fst .fsb{height:13px;background:var(--paper2);border-radius:4px;overflow:hidden}
+.fst .fsb i{display:block;height:100%;border-radius:4px}
+.fst .fsd{font-size:9.5px;color:var(--dim);margin-top:2px}
+.capbar{position:relative;height:20px;background:var(--paper2);border-radius:5px;overflow:hidden;margin-top:4px}
+.capbar i{display:block;height:100%;background:var(--dn);border-radius:5px}
+.capbar span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--ink)}
+.flowline{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fnode{font-size:10px;font-weight:700;letter-spacing:.05em;padding:5px 9px;border-radius:6px;
+background:var(--blu3);color:var(--bluD);border:1px solid var(--hair2);white-space:nowrap}
+.fnode.alt{background:#fff3d6;color:#8a5a00;border-color:#f0d38f}
+.fnode.idx{background:var(--blu);color:#fff;border-color:var(--blu)}
+.farr{color:var(--dim);font-size:12px}
+html[data-theme=dark] .fnode.alt{background:#3a2b0e;color:#f0c470;border-color:#5c4415}
+.tagbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:9px 14px;border-bottom:1px solid var(--hair)}
+.tagbar .tf{border:1px solid var(--hair2);background:var(--card);color:var(--mut);font:700 8.5px var(--sans);
+letter-spacing:.09em;padding:4px 8px;border-radius:5px;cursor:pointer}
+.tagbar .tf:hover{border-color:var(--blu);color:var(--blu)}
+.tagbar .tf.on{background:var(--blu);border-color:var(--blu);color:#fff}
+.tagbar .tf[disabled]{opacity:.38;cursor:not-allowed}
+.tagbar .tf[disabled]:hover{border-color:var(--hair2);color:var(--mut)}
+.tagbar .tf .n{opacity:.6;margin-left:4px;font-weight:500}
+.tagbar .lbl{font:700 8.5px var(--sans);letter-spacing:.12em;color:var(--dim);margin-right:2px}
+html[data-theme=dark] .tagbar .tf.on{color:#0d1014}
+.tgl{background:transparent;border:1px solid var(--hair2);color:var(--mut);width:26px;height:22px;
+border-radius:5px;cursor:pointer;font-size:11px;line-height:1;padding:0}
+.tgl:hover{border-color:var(--blu);color:var(--blu)}
+.hb{display:flex;gap:9px;align-items:center;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--hair)}
+/* ── motion: restrained. Cards lift a hair, rows tint, nothing bounces. ── */
+.mg,.panel{transition:box-shadow .18s ease,transform .18s ease,border-color .18s ease}
+.mg:hover{box-shadow:0 2px 14px rgba(25,25,24,.07);transform:translateY(-1px)}
+tbody tr{transition:background .12s ease}
+nav a,.btn,.chip2{transition:background .14s ease,color .14s ease,border-color .14s ease}
+.spark i{transition:height .5s cubic-bezier(.2,.8,.2,1)}
+tbody tr[data-open]{cursor:pointer}
+/* ── charts ── */
+.chart{width:100%;display:block}
+.chart .gl{stroke:var(--hair2);stroke-width:1}
+.chart .ln{fill:none;stroke:var(--blu);stroke-width:1.8;stroke-linejoin:round}
+.chart .ar{fill:url(#gBlu)}
+.chart .lb{font:600 8.5px var(--sans);fill:var(--dim);letter-spacing:.1em}
+/* time-bucketed distribution chart */
+.chart .ax{font:600 9px var(--mono);fill:var(--dim)}
+.chart .ax.cu{fill:var(--blu);opacity:.85}
+.chart .cb{fill:var(--blu1);transition:fill .12s ease}
+.chart .cb:hover{fill:var(--blu)}
+.chart .cl{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;opacity:.75}
+.clg{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:8px;font-size:10px;color:var(--mut)}
+.clg .sw{display:inline-block;width:11px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.clg .sw.b{background:var(--blu1)}
+.clg .sw.l{background:transparent;border-top:2px solid var(--ink);height:0;border-radius:0;opacity:.75}
+.donut text{font:600 9px var(--sans);fill:var(--ink)}
+/* ── skeleton, so loading reads as structure not as emptiness ── */
+.sk{height:11px;border-radius:4px;background:linear-gradient(90deg,var(--paper2) 25%,#f2f1ee 37%,var(--paper2) 63%);
+background-size:400% 100%;animation:shim 1.4s ease infinite;margin:7px 0}
+@keyframes shim{0%{background-position:100% 0}100%{background-position:0 0}}
+/* ── detail drawer ── */
+#scrim{position:fixed;inset:0;background:rgba(25,25,24,.34);opacity:0;pointer-events:none;
+transition:opacity .22s ease;z-index:40;backdrop-filter:blur(1.5px)}
+#scrim.on{opacity:1;pointer-events:auto}
+#drawer{position:fixed;top:0;right:0;bottom:0;width:min(470px,94vw);background:var(--card);
+border-left:1px solid var(--hair2);transform:translateX(102%);transition:transform .26s cubic-bezier(.2,.8,.2,1);
+z-index:41;overflow-y:auto;box-shadow:-10px 0 40px rgba(25,25,24,.09)}
+#drawer.on{transform:none}
+.dh{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--hair);padding:14px 16px;z-index:2}
+.dh h3{font-size:19px;font-weight:500;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.dx2{position:absolute;top:13px;right:14px;border:1px solid var(--hair2);background:var(--card);
+border-radius:6px;width:26px;height:26px;cursor:pointer;color:var(--mut);font-size:13px;line-height:1}
+.dx2:hover{border-color:var(--blu);color:var(--blu)}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:7px 16px;border-bottom:1px solid var(--hair);font-size:11.5px}
+.kv span{color:var(--dim);font-family:var(--sans);font-weight:600;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
+.kv b{font-family:var(--mono);font-weight:500;text-align:right}
+.cp{cursor:pointer;border-bottom:1px dashed var(--hair2)}
+.cp:hover{color:var(--blu);border-color:var(--blu)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:#fff;
+padding:8px 16px;border-radius:8px;font-size:11px;font-weight:600;letter-spacing:.06em;opacity:0;
+pointer-events:none;transition:all .2s ease;z-index:50}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+/* ── mobile: this gets shared from X, so most readers arrive on a phone ── */
+@media(max-width:820px){
+ body{overflow:auto}
+ .app{flex-direction:column;height:auto;min-height:100vh}
+ aside{width:100%;flex:none;border-right:0;border-bottom:1px solid var(--hair);position:sticky;top:0;z-index:30}
+ .logo{padding:11px 13px 9px}.logo .sub{display:none}
+ nav{display:flex;overflow-x:auto;padding:7px 8px;gap:5px}
+ nav a{white-space:nowrap;margin:0;padding:7px 11px;font-size:10px}
+ nav a span:not(.ic):not(.k){display:inline}nav a .k{display:none}
+ .sfoot{display:none}
+ main{min-height:0}.content{padding:10px;overflow:visible}
+ .top{font-size:10px;gap:10px;padding:8px 10px}
+ .mega{grid-template-columns:1fr 1fr;gap:8px}
+ .mg .n{font-size:21px}
+ .cols,.cols3{grid-template-columns:1fr}
+ .ph{flex-wrap:wrap}.ph .d{max-width:100%;margin-left:0;text-align:left}
+ .tw{max-height:none!important}
+ .feed{max-height:280px}
+}
+@media(max-width:480px){.mega{grid-template-columns:1fr}}
+</style></head><body>
+<div class="app">
+<aside>
+ <div class="logo"><div style="display:flex;align-items:center;gap:8px">
+  <img src="assets/logo-64.png" width="24" height="24" alt="SubIndex"
+    style="flex:0 0 auto;border-radius:6px;display:block">
+  <h1>SUBINDE<span>X</span></h1></div><div class="sub">ONCHAIN YIELD TERMINAL · RH CHAIN</div></div>
+ <nav id="nav">
+  <a data-v="over" class="on"><span class="ic">◧</span><span>OVERVIEW</span><span class="k">1</span></a>
+  <a data-v="prot"><span class="ic">⛁</span><span>PROTOCOLS</span><span class="k">2</span></a>
+  <a data-v="divs"><span class="ic">◆</span><span>MY DIVIDENDS</span><span class="k">3</span></a>
+  <a data-v="pipe"><span class="ic">🔮</span><span>PIPELINE</span><span class="k">4</span></a>
+  <a data-v="keep"><span class="ic">⚙</span><span>KEEPER</span><span class="k">5</span></a>
+  <a data-v="idx"><span class="ic">◈</span><span>$INDEX</span><span class="k">6</span></a>
+  <a data-v="rail"><span class="ic">▦</span><span>THE RAILS</span><span class="k">7</span></a>
+  <a data-v="meth"><span class="ic">⊞</span><span>METHOD</span><span class="k">8</span></a>
+ </nav>
+ <div class="sfoot">INDEPENDENT · UNAFFILIATED<br>Not investment advice.<br><span id="sblock" class="dx">—</span></div>
+</aside>
+<main>
+ <div class="top">
+  <span class="chip on">ROBINHOOD CHAIN</span>
+  <span>$INDEX <b id="tIx">—</b> <span id="tIxCh"></span></span>
+  <span class="di">·</span><span>PROTOCOLS <b id="tProt">—</b></span>
+  <span class="di">·</span><span>ROUNDS <b id="tRnd">—</b></span>
+  <span class="di">·</span><span>KEEPER <b id="tKeep">—</b></span>
+  <button class="tgl" id="thBtn" onclick="SI.theme()" title="switch between light and dark">◐</button>
+  <span style="margin-left:auto" class="live"><span class="dot" id="ldot"></span><span id="lstat">connecting…</span></span>
+ </div>
+ <div class="content" id="content">
+
+  <div class="view on" id="v-over">
+   <div class="tok">
+    <div class="tkh">
+     <div class="tkid">
+      <img src="assets/logo-256.png" width="34" height="34" alt="$SUBINDEX"
+        style="flex:0 0 auto;border-radius:8px;display:block">
+      <div>
+       <h1>$SUBINDEX <span class="tkb">SAME BASKET · SUPPORTS INDEX</span>
+        <span class="tkb" style="background:var(--blu2);color:var(--bluD)">17-ASSET STRESS TEST</span></h1>
+       <div class="tksub">the official page for the SubIndex treasury coin · pays the same tokenized
+        stock basket while routing part of its fees to INDEX payouts — 17 assets on a 15-minute
+        epoch, 100% to holders, 0% to the creator</div>
+      </div>
+     </div>
+     <div class="tkl">
+      <a class="btn" href="https://indices.theindex.finance/coin/0xa50b5777f4cf28b10365bc85fd693006042b0b2a" target="_blank" rel="noopener">VIEW ON INDICES ↗</a>
+      <a class="btn gh" href="https://x.com/TheSubIndexFi" target="_blank" rel="noopener">@THESUBINDEXFI ↗</a>
+      <button class="btn gh" onclick="copyTxt('0xfb52da75945a4965183a5cfec1dca7af5881ce24')">COPY CONTRACT</button>
+      <button class="btn gh" onclick="SI.share()">SHARE STATS ↗</button>
+     </div>
+    </div>
+    <div class="tkm" id="tokMetrics"></div>
+    <div class="tkca">
+     <span class="dx">CONTRACT</span>
+     <code class="cp" onclick="copyTxt('0xfb52da75945a4965183a5cfec1dca7af5881ce24')">0xfb52da75945a4965183a5cfec1dca7af5881ce24</code>
+     <span class="dx">TREASURY</span>
+     <code class="cp" onclick="copyTxt('0xa50b5777f4cf28b10365bc85fd693006042b0b2a')">0xa50b…0b2a</code>
+     <span class="dx" style="margin-left:auto">verify both on
+      <a href="https://robinhoodchain.blockscout.com/token/0xfb52da75945a4965183a5cfec1dca7af5881ce24" target="_blank" rel="noopener">Blockscout ↗</a></span>
+    </div>
+   </div>
+   <div class="flag">
+    <div class="fh"><span class="ft">FINDING</span><span class="fd" id="flagDate">2026-08-05</span></div>
+    <h2>Basket breadth, not fee volume, is what stalls these payouts — and we are testing where the ceiling is.</h2>
+    <p>Distributions on this launchpad are not autonomous. A single keeper wallet executes every round
+    for every treasury, and a round is not one transfer — it is a Merkle commit followed by
+    <b>one transaction per holder</b>. We measured 43 payout transactions in four minutes for one coin
+    with 32 holders, zero failures. Keeper throughput is ~11 tx/min against ~900 holder-leaves across
+    the live set, so a full sweep of the ecosystem takes <b>roughly 84 minutes</b> at best. A treasury
+    advertising a 15-minute epoch is describing an intention the architecture cannot currently honour;
+    a 15-minute epoch is a floor, not a schedule.</p>
+    <p>Basket breadth multiplies that cost. Every additional reward asset adds a conversion step before
+    a round can even be computed, and then adds transfers per holder. The pattern in the data is
+    suggestive rather than proven — the two widest baskets on the launchpad (17 and 8 assets) have
+    executed <b>zero</b> rounds, while single-asset baskets fill the top of the rounds table — but it is
+    confounded: those wide-basket coins also have no trading volume yet, and therefore no fees to
+    distribute at all. Untangling breadth from fee starvation needs a case where one is held fixed.</p>
+    <p class="fm"><b>So that is what SubIndex is for.</b> We operate
+    <a href="https://indices.theindex.finance/coin/0xa50b5777f4cf28b10365bc85fd693006042b0b2a" target="_blank" rel="noopener">SUBINDEX</a>
+    — deliberately the most demanding configuration available on the launchpad: <b>17 reward assets,
+    a 15-minute epoch, 100% of distributions to holders, nothing to the creator</b>. It is a test
+    instrument, not a pitch. Every round it completes, fails, or delays is published here alongside
+    every other protocol on the same terms, and we will report what breaks even when what breaks is
+    ours. <span class="dx">Disclosure: SubIndex operates the SUBINDEX treasury. Nothing on this site is
+    investment advice.</span></p>
+   </div>
+   <div class="mega" id="heroOver"></div>
+   <div class="cols" style="grid-template-columns:1.55fr 1fr">
+    <div class="panel"><div class="ph" style="--pc:var(--blu)"><h2>Distribution activity</h2><span class="d">value pushed to holders per interval (columns) with the running total (line, right axis) · all times Eastern · marked at current prices</span></div>
+     <div class="pb" id="areaWrap"><div class="sk" style="width:100%;height:176px"></div></div>
+     <div class="ph" style="border-top:1px solid var(--hair)"><h2 style="--pc:var(--blu)">Distribution feed</h2><span class="d">payouts landing in holder wallets, newest first</span></div>
+     <div class="feed" id="feedDist"><div class="pb"><div class="sk" style="width:86%"></div><div class="sk" style="width:71%"></div><div class="sk" style="width:78%"></div><div class="sk" style="width:64%"></div></div></div></div>
+    <div>
+     <div class="panel"><div class="ph" style="--pc:var(--up)"><h2>Most distributions</h2><span class="d">payout rounds finalized on chain</span></div>
+      <div class="pb" id="barRnd"><div class="sk" style="width:88%"></div></div></div>
+     <div class="panel"><div class="ph" style="--pc:#c07a3a"><h2>Most traded, 24h</h2><span class="d">migrated books only</span></div>
+      <div class="pb" id="barVol"><div class="sk" style="width:82%"></div></div></div>
+     <div class="panel"><div class="ph" style="--pc:#7a68c0"><h2>What this ecosystem pays in</h2><span class="d">reward assets by how many protocols route fees into them</span></div>
+      <div class="pb" id="rewMix2"><div class="sk" style="width:76%"></div></div></div>
+    </div>
+   </div>
+   <div class="cols">
+    <div class="panel"><div class="ph" style="--pc:var(--gold)"><h2>Paying soonest</h2><span class="d">next payout clock across every live treasury</span></div>
+     <div class="pb" id="soon"><div class="spin">…</div></div></div>
+    <div class="panel"><div class="ph" style="--pc:#3a8f85"><h2>Pairing vs throughput</h2><span class="d">does the asset a coin trades against change how often it actually pays?</span></div>
+     <div class="pb" id="pairPerf"><div class="spin">…</div></div></div>
+   </div>
+   <div class="panel grow"><div class="ph" style="--pc:var(--blu)"><h2>Full ledger</h2>
+    <span class="d">every live protocol, ranked by distributions executed · click a tag to filter · deeper sorting on the PROTOCOLS tab</span></div>
+    <div class="tagbar" id="tagBar"></div>
+    <div class="tw" id="ledger"><div class="spin">…</div></div></div>
+  </div>
+
+  <div class="view" id="v-prot">
+   <div class="panel">
+    <div class="hb">
+     <input id="q" class="in" placeholder="filter by ticker, reward asset or address…" style="flex:1;max-width:340px" oninput="SI.filter(this.value)">
+     <button class="btn gh" id="fPay" onclick="SI.toggle('payers')">PAYERS ONLY</button>
+     <button class="btn gh" id="fMig" onclick="SI.toggle('migrated')">MIGRATED ONLY</button>
+     <button class="btn gh" id="fFull" onclick="SI.toggle('full')">100% TO HOLDERS</button>
+     <button class="btn gh" id="fDir" onclick="SI.toggle('direct')">DIRECT-PAIRED</button>
+     <button class="btn gh" id="fHeld" onclick="SI.toggle('held')">HELD BY ME</button>
+     <button class="btn gh" id="fCrv" onclick="SI.toggle('curve')">ON CURVE</button>
+     <button class="btn gh" onclick="SI.clearF()">✕ CLEAR</button>
+     <span class="di" style="font-size:9.5px;margin-left:auto" id="protCount"></span>
+    </div>
+    <div class="tw" id="tblProt" style="max-height:calc(100vh - 190px)"><div class="spin">loading registry…</div></div>
+    <div class="note"><b>Badges are earned from observable behaviour, never opinion.</b>
+     <span class="badge b-pay">PAYER</span> ≥1 payout round finalized on chain ·
+     <span class="badge b-full">FULL</span> 100% of distributions go to holders ·
+     <span class="badge b-curve">CURVE</span> still on the bonding curve, no external book yet ·
+     <span class="badge b-hold">HELD</span> in your connected wallet.
+     Where a creator takes a cut the exact split is printed. Click any column to sort.</div>
+   </div>
+  </div>
+
+  <div class="view" id="v-divs">
+   <div class="panel grow" id="wPanel"><div class="ph" style="--pc:var(--up)"><h2>Dividend tracker</h2>
+    <span class="d">read-only · we never request a signature, a transaction, or a private key</span></div>
+    <div class="hb">
+     <button class="btn" id="wConn" onclick="SI.connect()">CONNECT WALLET</button>
+     <span class="di" style="font-size:9.5px">or paste any address —</span>
+     <input id="wAddr" class="in" placeholder="0x… (watch-only)" style="flex:1;max-width:420px">
+     <button class="btn gh" onclick="SI.watch()">TRACK</button>
+     <button class="btn gh" onclick="SI.clearW()">CLEAR</button>
+     <span id="wWho" class="di" style="font-size:9.5px;margin-left:auto"></span>
+    </div>
+    <div class="pb" id="wEmpty"></div>
+   </div>
+   <div id="wBody" style="display:none;flex:1;min-height:0;flex-direction:column">
+    <div class="mega" id="heroW"></div>
+    <div class="cols">
+     <div class="panel"><div class="ph" style="--pc:var(--blu)"><h2>Where your dividends come from</h2>
+      <span class="d">each payment matched to the protocol that sent it, by treasury address</span></div>
+      <div class="pb" id="wSrc"></div></div>
+     <div class="panel"><div class="ph" style="--pc:#7a68c0"><h2>Paid in</h2><span class="d">reward assets you have received</span></div>
+      <div class="pb" id="wAsset"></div></div>
+    </div>
+    <div class="panel"><div class="ph" style="--pc:#3a8f85"><h2>Your dividend-coin holdings</h2>
+     <span class="d">positions in listed protocols, with each one's next payout clock</span></div>
+     <div class="tw" id="wHold"></div></div>
+    <div class="panel grow"><div class="ph" style="--pc:var(--blu)"><h2>Payment history</h2><span class="d">newest first · source resolved from the sending contract</span></div>
+     <div class="tw" id="wFeed"></div>
+     <div class="note">Values are marked at current prices, not the price when you received them.
+      Only transfers on the most recent pages are shown — Blockscout paginates, and we do not paginate
+      deeply from a public page to stay within polite rate limits.</div></div>
+   </div>
+  </div>
+
+  <div class="view" id="v-pipe">
+   <div class="mega" id="heroPipe"></div>
+   <div class="cols">
+    <div class="panel"><div class="ph" style="--pc:var(--up)"><h2>Launch funnel</h2>
+     <span class="d">where coins fall out between deployment and a holder actually being paid</span></div>
+     <div class="pb" id="pipeFunnel"><div class="spin">…</div></div></div>
+    <div class="panel"><div class="ph" style="--pc:var(--blu)"><h2>Launch rate over time</h2>
+     <span class="d">cumulative treasuries deployed vs coins bound</span></div>
+     <div class="pb" id="pipeTime"><div class="spin">…</div></div></div>
+   </div>
+   <div class="panel"><div class="ph" style="--pc:var(--gold)"><h2>Treasuries built, no coin bound yet</h2>
+    <span class="d">the payout machinery exists before the coin does · the basket shown is what the future coin will pay its holders</span></div>
+    <div class="pb chips" id="pipeT"><span class="spin">…</span></div></div>
+   <div class="panel grow"><div class="ph" style="--pc:#c07a3a"><h2>Pools created, not yet trading</h2>
+    <span class="d">v4 pools initialized on chain whose token has no price feed yet · a pool with a treasury behind it is a dividend coin assembling; one without is an ordinary launch</span></div>
+    <div class="pb chips" id="pipeP"><span class="spin">…</span></div></div>
+   <div class="note">All three stages — treasury built, pool initialized, coin bound — are public chain events.
+    A launch is observable long before it is tradeable, and what a treasury will pay is knowable before anyone can buy it.</div>
+  </div>
+
+  <div class="view" id="v-keep">
+   <div class="mega" id="heroKeep"></div>
+   <div class="panel"><div class="ph" style="--pc:var(--dn)"><h2>Throughput, measured</h2>
+    <span class="d">the arithmetic behind every "late payout" on this site</span></div>
+    <div class="pb" id="keepMath"><div class="spin">…</div></div></div>
+   <div class="panel"><div class="ph" style="--pc:#c07a3a"><h2>What the keeper is actually working on</h2>
+    <span class="d">calls per treasury in the sampled window — a short list means everything else is queued</span></div>
+    <div class="pb" id="keepFocus"><div class="spin">…</div></div></div>
+   <div class="panel"><div class="ph" style="--pc:var(--blu)"><h2>How distributions actually execute</h2>
+    <span class="d">measured from transaction history, not documentation</span></div>
+    <div class="pb" style="line-height:1.8;font-size:11.5px;color:var(--mut)">
+     <p><b style="color:var(--gold)">Payouts are keeper-driven, not autonomous.</b> Every distribution step on every
+     treasury is submitted by a single externally-owned wallet, in scripted bursts of five to seven transactions
+     inside roughly sixteen seconds: <code>harvest</code> → <code>claimProtocol</code> → commit → finalize → payout.
+     The bursts arrive one epoch apart, which is what a scheduled job looks like on chain.</p>
+     <p style="margin-top:9px"><b style="color:var(--gold)">Why that matters if you hold one of these.</b> A treasury's
+     epoch is therefore a <b>minimum interval, not a guarantee</b>. No holder can force a distribution, and if the
+     keeper wallet runs out of gas or stops running, payouts pause across every coin at once. The protocol's own
+     disclaimer names keeper availability as a dependency; it is rarely quantified, so we track this wallet's gas
+     and time-since-last-run and treat them as the ecosystem's liveness signal.</p>
+     <p style="margin-top:9px"><b style="color:var(--gold)">The protocol fee is being collected.</b> <code>claimProtocol</code>
+     runs on the same cadence as the payouts and the proceeds arrive as tokenized stock in the keeper wallet, which
+     forwards them onward. We have <b>not</b> observed a transfer from there to the $INDEX distributor or stock treasury,
+     so any claim that the protocol's cut is recycled to $INDEX holders is, on the evidence we can see,
+     <b>unverified at the final hop</b>. We will publish it either way when the trail resolves.</p>
+    </div></div>
+   <div class="panel grow"><div class="ph" style="--pc:var(--blu)"><h2>Recent keeper activity</h2><span class="d">latest calls, newest first</span></div>
+    <div class="tw" id="tblKeep"><div class="spin">…</div></div></div>
+  </div>
+
+  <div class="view" id="v-idx">
+   <div class="mega" id="heroIdx"></div>
+   <div class="panel"><div class="ph" style="--pc:var(--blu)"><h2>What $INDEX pays its holders</h2>
+    <span class="d" id="idxChartCap">reading the distributor…</span></div>
+    <div class="pb" id="idxChart"><div class="spin">…</div></div></div>
+   <div class="cols">
+    <div class="panel"><div class="ph" style="--pc:#7a68c0"><h2>INDEX reward mix</h2>
+     <span class="d">value distributed by asset</span></div>
+     <div class="pb" id="idxMix"><div class="spin">…</div></div></div>
+    <div class="panel"><div class="ph" style="--pc:var(--up)"><h2>Fees arriving at the distributor</h2>
+     <span class="d">launchpad tokens flowing in, by sender token — the flywheel's first observable hop</span></div>
+     <div class="pb" id="idxIn"><div class="spin">…</div></div></div>
+   </div>
+   <div class="cols">
+    <div class="panel"><div class="ph" style="--pc:var(--gold)"><h2>The flywheel, and what of it is proven</h2>
+     <span class="d">how launchpad activity is meant to reach INDEX holders</span></div>
+     <div class="pb" id="idxFlow"><div class="spin">…</div></div></div>
+   </div>
+   <div class="panel grow"><div class="ph" style="--pc:var(--blu)"><h2>Recent INDEX distributions</h2>
+    <span class="d">newest first, straight from the distributor contract</span></div>
+    <div class="tw" id="idxTbl"><div class="spin">…</div></div></div>
+   <div class="note">$INDEX contract
+    <a href="https://robinhoodchain.blockscout.com/token/0x56910d4409f3a0c78c64dd8d0545ff0705389870" target="_blank" rel="noopener">0x5691…9870</a>
+    · distributor
+    <a href="https://robinhoodchain.blockscout.com/address/0x39adb8acd07427d338b5f1afab436a04abfdb7c4" target="_blank" rel="noopener">0x39ad…b7c4</a>.
+    SubIndex is not affiliated with Index. Nothing here is investment advice.</div>
+  </div>
+  <div class="view" id="v-rail">
+   <div class="panel"><div class="ph" style="--pc:#3a8f85"><h2>What the dividends are paid in</h2>
+    <span class="d">the tokenized equities these treasuries buy · issuer verified independently rather than assumed</span></div>
+    <div class="tw" id="tblRail"><div class="spin">…</div></div>
+    <div class="note"><b>Issuer verification.</b> These reward tokens are verified proxy contracts deployed from a
+     single upgradeable factory, with holder counts in the tens of thousands and no minting in recent windows. That
+     factory is independent of the launchpad team's deployer wallets — so the protocols distribute <b>the chain's
+     existing tokenized equities</b> rather than paper they issued themselves. It is the most important structural
+     fact about this ecosystem, and it checks out. Holdings are tokens, not brokerage shares: no voting rights,
+     no corporate dividends.</div></div>
+   <div class="panel grow"><div class="ph" style="--pc:#7a68c0"><h2>Contract map</h2><span class="d">$INDEX core · verify every one yourself</span></div>
+    <div class="pb chips" id="cmap"></div></div>
+  </div>
+
+  <div class="view" id="v-meth">
+   <div class="panel"><div class="ph" style="--pc:var(--blu)"><h2>Methodology</h2><span class="d">every number on this terminal, and exactly where it comes from</span></div>
+    <div class="pb"><dl class="meth two">
+     <dt>What is live, and what is a snapshot — the honest split</dt>
+     <dd>Prices, liquidity, volume, holder counts, keeper gas, keeper activity, pool creation, your wallet's
+      transfers: all read <b>live in your browser</b> at load. The <b>treasury registry</b> — which coin is bound to
+      which treasury, its basket, epoch, split and round count — is a <b>scheduled snapshot</b>, and its age is
+      stamped in the header.</dd>
+     <dt>Why the registry is a snapshot, and not laziness</dt>
+     <dd>The treasury contracts on this chain are <b>unverified</b>: they publish no ABI, so their getters cannot be
+      discovered from chain data alone. Reading them from your browser would mean guessing function selectors — we
+      tried, and they return nothing. Publishing guessed numbers is worse than publishing a labelled snapshot, so we
+      label it. We are deriving the same fields from treasury <b>event logs</b>, which removes the snapshot entirely.</dd>
+     <dt>Dividend attribution</dt>
+     <dd>Incoming token transfers to your address are matched against the treasury registry and the $INDEX
+      distributor by <b>sending contract</b>. A payment from a treasury is attributed to that treasury's coin; that is
+      why the SOURCE column can name a memecoin while the asset received is a stock.</dd>
+     <dt>Payout rounds and countdowns</dt>
+     <dd>Round counts come from finalized rounds. The countdown is <i>last round + epoch</i>. Because execution is
+      keeper-dependent, a countdown past zero means a payout is <b>due</b>, not that one has failed.</dd>
+     <dt>Prices, market cap, liquidity, volume</dt>
+     <dd>DexScreener, deepest pool per token. Coins still on the bonding curve have no external pool and are marked
+      <span class="badge b-curve">CURVE</span> rather than shown as zero — absent data is labelled absent, never
+      rendered as a zero.</dd>
+     <dt>Wallet access</dt>
+     <dd>The connector requests your address only (<code>eth_requestAccounts</code>) and nothing else. We never
+      request a signature, never construct a transaction, and never ask for a key or seed phrase. Watch-only mode
+      needs no wallet at all — paste any address. Nothing is sent anywhere: the lookups go straight from your
+      browser to public explorers.</dd>
+     <dt>What we will not do</dt>
+     <dd>We do not label projects as scams, do not publish accusations about identifiable people, and do not give
+      buy or sell recommendations. Where a structure is unusual — a large creator cut, a concentrated holder, an
+      unverified fee trail — we print the measurement and let it speak.</dd>
+     <dt>Corrections</dt>
+     <dd>If a figure here is wrong, it is wrong in public and we want to know. We have already retracted one of our
+      own indicators after proving it could never fire; that record stays visible rather than being quietly deleted.</dd>
+    </dl></div>
+    <div class="lgl"><b style="color:var(--mut)">SubIndex is independent and unaffiliated.</b> Not affiliated with,
+     endorsed by, or speaking for The Index, Robinhood Markets, or any project or token listed here. Nothing on this
+     site is financial, investment, legal or tax advice, and nothing here is an offer or solicitation. Distributions
+     are tokenized assets, not brokerage shares — no voting rights, no corporate dividends. Payouts depend on
+     trading-fee volume, market liquidity, price feeds and keeper availability; they are not guaranteed and can stop.
+     Liquidity on early tokens is thin and prices can move violently. Chain data and third-party feeds can be wrong
+     or delayed. Verify every address yourself.</div>
+   </div>
+   <div class="panel grow"><div class="ph" style="--pc:var(--up)"><h2>Provenance, field by field</h2>
+    <span class="d">every figure on this terminal, its source, and whether it is read live or from the snapshot</span></div>
+    <div class="tw" id="provTbl"><div class="spin">…</div></div></div>
+  </div>
+
+ </div>
+</main>
+<div id="scrim" onclick="SI.closeD()"></div>
+<div id="drawer"><div id="drawerBody"></div></div>
+<div id="toast"></div>
+</div>
+<script>/* set before paint: a flash of the wrong theme is worse than either theme */
+(function(){try{var t=localStorage.getItem('si_theme');
+if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script src="app.js"></script></body></html>

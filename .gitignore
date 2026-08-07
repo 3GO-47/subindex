@@ -1,0 +1,20 @@
+# nothing from CRYPTONITE ever belongs in this repo — see README
+.DS_Store
+Thumbs.db
+*.tmp
+*.json.tmp
+node_modules/
+
+# ── NOT part of the website ────────────────────────────────────────────────
+# Cloudflare Pages serves EVERY file in the output directory, so anything
+# committed here becomes a public URL. TWEETS.md was readable at
+# /TWEETS.md — the entire unposted launch thread. DEPLOY.md advertised the
+# private cryptonite folder and what it holds. These stay on disk; they just
+# stop being published. README.md is deliberately kept: it is public-facing.
+TWEETS.md
+DEPLOY.md
+deploy.bat
+serve.bat
+setup-git.bat
+scrub-history.bat
+data/
