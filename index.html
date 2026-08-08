@@ -457,10 +457,20 @@ pointer-events:none;transition:all .2s ease;z-index:50}
     <p>The honest scoreboard: SUBINDEX has executed <b>zero rounds</b> and paid nobody anything. It
     holds 17 reward assets on a 15-minute epoch with 100% of distributions to holders — the most
     demanding configuration on the launchpad — and none of that is why it has paid nothing.</p>
-    <p><b>The proven cause is one thing, and it is not breadth.</b> SUBINDEX never graduated its
-    bonding curve. Graduation needs the curve to raise a set amount of ETH; until that happens there is
-    no pool, so no trading fees, so nothing whatsoever to distribute. Zero rounds is the arithmetic
-    consequence of zero fees, and no configuration choice would have changed it.</p>
+    <p><b>It is not that there were no fees. The fees exist and have not moved.</b> The coin's own
+    page reports <b>$155.56 of fees collected</b> against <b>$0.00 distributed to holders</b> and
+    <b>$0.00 creator earnings</b>, across <b>zero rounds</b>. So the failure is not an empty treasury —
+    it is a full one that has never executed a distribution. SUBINDEX also never graduated its bonding
+    curve, and the most likely explanation is that the two are the same fact: the payout machinery does
+    not begin running rounds until the coin migrates. We are stating the measurement and naming that as
+    a <i>hypothesis</i>, because we have not yet watched a coin cross that boundary and start paying.</p>
+    <p><b>A correction, in public, on our own page.</b> This section previously said there were no fees
+    to distribute at all. That was wrong — $155.56 had been collected. We had been reading a treasury
+    field named <code>harvested</code> as "distributed to holders"; for SUBINDEX it reads $0.08 while the
+    coin page reads $155.56 collected, so the two are plainly different quantities and our label was
+    the mistaken one. The fee columns on this site are being re-sourced against the figures the coin
+    page itself publishes, and until that reconciles we would rather show the discrepancy than a number
+    we cannot defend.</p>
     <p><b>What we cannot yet claim.</b> The tempting story is that 17 assets is too many, and the
     surface data looks supportive — every coin with eight or more reward assets has zero rounds. But
     that is <b>two coins</b>, SUBINDEX and one other, and <i>neither has graduated either</i>, so
@@ -749,4 +759,4 @@ pointer-events:none;transition:all .2s ease;z-index:50}
 (function(){try{var t=localStorage.getItem('si_theme');
 if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
 document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
-<script src="app.js?v=9"></script></body></html>
+<script src="app.js?v=14"></script></body></html>

@@ -152,6 +152,8 @@ function mapRegistry(d){
   const nz=v=>(v==null||v==='')?null:(isFinite(+v)?+v:null);
   return{treasury:(c.treasury||'').toLowerCase(),coin:c.coin?String(c.coin).toLowerCase():null,
    sym:c.sym,name:c.name,basket,bps:nz(c.distribute_bps),epochLength:nz(c.epoch_sec),creator:c.creator,
+   harvested:c.harvested,protocol_fees:c.protocol_fees,creator_accrued:c.creator_accrued,
+   dist:c.dist||[],
    rounds:nz(c.rounds_n)||0,lastRound:nz(c.last_round),next:nz(c.next_payout),
    boundAt:nz(c.bound_at),deployedAt:nz(c.deployed_at)}});
 }
@@ -607,8 +609,63 @@ function renderTagBar(rows){
   +(any?'<button class="tf" onclick="SI.clearF()" title="clear every filter">✕ CLEAR</button>':'')
   +`<span class="lbl" style="margin-left:auto">${rows.filter(passFilt).length} of ${rows.length} shown</span>`;
 }
+/* ══ FEE LEDGER ═════════════════════════════════════════════════════════════
+   Three figures straight from the public indexer, in USD 18-decimal fixed point
+   (NOT wei of ether — harvested/1e18 reconciles against the treasury's own paid
+   totals, which is how the units were confirmed):
+     harvested       what has reached HOLDERS
+     creator_accrued what the CREATOR has taken
+     protocol_fees   the protocol's skim, exactly 10% of gross on every coin
+
+   Why publishing all three matters: it turns a coin's advertised split from a
+   claim into something a reader can CHECK. If distribute_bps is honest then
+        creator_accrued / harvested  ==  (10000 - bps) / bps
+   so a coin declaring 100% to holders must show a creator take of zero. Any
+   mismatch is a coin not paying the split it advertises, which is exactly the
+   kind of thing this site exists to measure rather than assume. */
+const FX=v=>{try{return Number(BigInt(String(v||'0')))/1e18}catch(e){return (+v||0)/1e18}};
+function feeLedger(t){
+ /* THREE BASES, and confusing them is how this was mislabelled twice:
+      harvested   fees SWEPT INTO the treasury          cash
+      dist.spent  cash deployed buying holders' stock   cash  <- "distributed to holders"
+      dist.paid   those units at TODAY's price          MARK  <- never a cash flow
+    Verified against the coin page: SUBINDEX shows $0.00 distributed and spent=$0.00,
+    while harvested=$0.08. And spent <= harvested on every coin, zero violations,
+    which a real outflow must satisfy — whereas `paid` shows CHILL "distributing"
+    $278 on $10.84 taken in, because its stock appreciated 26x. */
+ const swept=FX(t.harvested), prot=FX(t.protocol_fees);
+ const creator=(t.creator_accrued==null)?null:FX(t.creator_accrued);
+ const dl=t.dist||[];
+ const holders=dl.reduce((n,z)=>n+(+z.spent||0),0);
+ const mark   =dl.reduce((n,z)=>n+(+z.paid ||0),0);
+ const gross=swept+prot+(creator||0);
+ /* SHARE-OF-DISTRIBUTED basis, which is what distribute_bps means:
+      holders/(holders+creator) must equal bps/10000. Bounded 0..1, so a fixed
+      2-percentage-point tolerance is meaningful at both ends — the creator/holders
+      ratio form is unbounded and gets meaningless as the holder share shrinks. */
+ /* Four outcomes, not two. Measured across 34 coins: 22 match their declared
+    split to 0.0pp, including every coin with real round counts (GME 98 rounds,
+    JACKET 108, CHILL 69). The rest are NOT all cheating:
+      none        nothing distributed either way -> 0/0, no verdict
+      creatorOnly the creator has been paid and holders have not -> the worst case
+      thin        under 5 rounds -> a creator claim can lead or lag a holder payout
+                  by a whole round, so the ratio is not yet meaningful
+      bad         RIZO 61% vs 90% declared over 6 rounds, STARMIND 71% vs 90% over
+                  12 — too wide, too many rounds to be timing */
+ let proof=null;
+ if(creator!=null&&t.bps){
+  const dist=holders+creator, rn=+t.rounds||0, expH=t.bps/10000;
+  if(dist<=0)proof={kind:'none',expH};
+  else{
+   const obsH=holders/dist, obsC=creator/dist, gap=Math.abs(obsH-expH);
+   proof={kind:(creator>0&&holders<=0)?'creatorOnly':(rn<5?'thin':(gap<=0.02?'ok':'bad')),
+          obsH,obsC,expH,expC:1-expH,gap,rn};
+  }
+ }
+ return{holders,creator,prot,gross,swept,mark,proof};
+}
 function rowsOf(){return S.tre.filter(t=>t.coin).map(t=>{const mkt=S.px[t.coin]||null;
- return{...t,mkt,sym:t.sym||(mkt&&mkt.sym)||symOf(t.coin),
+ return{...t,mkt,fee:feeLedger(t),sym:t.sym||(mkt&&mkt.sym)||symOf(t.coin),
   nextT:(t.lastRound&&t.epochLength)?t.lastRound+t.epochLength:t.next||null}})}
 
 function paintTop(){
@@ -783,14 +840,29 @@ function renderOver(){
   +'<a href="#" onclick="SI.clearF();return false" style="color:var(--blu)">clear the filters</a></div>';}else
  $('#ledger').innerHTML=`<table><thead><tr><th class="l">COIN</th><th class="l">PAYS OUT</th>
   <th>EPOCH</th><th>NEXT</th><th>ROUNDS</th><th>SPLIT H/C</th><th>PRICE</th><th>MC</th><th>LIQ</th>
-  <th>VOL 24H</th><th>HOLDERS</th><th>AGE</th></tr></thead><tbody>${led.map(r=>{const h=S.holders[r.coin];
+  <th>VOL 24H</th><th>HOLDERS</th><th title="harvested — fees swept INTO the treasury. The coin page's 'fees collected' is larger; the indexer publishes no field for the difference.">SWEPT IN</th><th title="cash deployed buying holders' stock (dist.spent) — reconciles with the coin page's 'distributed to holders'">&rarr;HOLDERS</th><th title="that stock at today's price — a mark, not a cash flow">MARK</th><th title="what the creator has taken">&rarr;CREATOR</th><th title="does the money match the advertised split?">PROOF</th><th>AGE</th></tr></thead><tbody>${led.map(r=>{const h=S.holders[r.coin];
   return `<tr data-open onclick="SI.openD('${r.treasury}')"><td class="l tk"><a href="${lnk(r.coin,'token')}" target="_blank" rel="noopener" style="color:${idcol(r.sym)}">${esc(r.sym)}</a>${pairTag(r)}${badge(r,1)}</td>
   <td class="l">${bskHtml(r)}</td><td class="mu">${ep(r.epochLength)}</td>
   <td>${(r.rounds||0)===0&&!(r.mkt&&r.mkt.vol>0)?'<span class="dx" title="no trading volume yet, so no fees have accrued — there is nothing to distribute. This is arithmetic, not a late payout.">no fees yet</span>':r.nextT?`<span data-cd="${r.nextT}">…</span>`:'—'}</td><td class="${(r.rounds||0)===0?'dx':(r.rounds||0)>=20?'up':''}" style="${(r.rounds||0)>=20?'font-weight:700':''}">${r.rounds||0}</td>
   <td class="${r.bps===10000?'up':r.bps!=null&&r.bps<5000?'am':'mu'}" style="${r.bps===10000?'font-weight:700':''}">${r.bps!=null?(r.bps/100).toFixed(0)+'/'+(100-r.bps/100).toFixed(0):'—'}</td>
   <td>${r.mkt?px$(r.mkt.px):'<span class="dx">curve</span>'}</td><td>${r.mkt?m$(r.mkt.mc):'<span class="dx">—</span>'}</td>
   <td>${r.mkt?m$(r.mkt.liq):'<span class="dx">—</span>'}</td><td>${r.mkt?m$(r.mkt.vol):'<span class="dx">—</span>'}</td>
-  <td>${h&&h.n!=null?num(h.n):'<span class="dx">…</span>'}</td><td class="mu">${ago(r.boundAt)}</td></tr>`}).join('')}</tbody></table>`;
+  <td>${h&&h.n!=null?num(h.n):'<span class="dx">…</span>'}</td>
+  <td>${r.fee.swept?m$(r.fee.swept):'<span class="dx">—</span>'}</td>
+  <td class="${r.fee.holders>0?'up':''}">${r.fee.holders?m$(r.fee.holders):'<span class="dx">—</span>'}</td>
+  <td class="mu">${r.fee.mark?m$(r.fee.mark):'<span class="dx">—</span>'}</td>
+  <td class="${r.fee.creator?'am':'mu'}">${r.fee.creator==null?'<span class="dx" title="the indexer field lands with the next snapshot">—</span>':(r.fee.creator?m$(r.fee.creator):'$0')}</td>
+  ${(()=>{const pf=r.fee.proof;
+    if(!pf)return '<td class="dx" title="needs creator_accrued from the next snapshot">—</td>';
+    const pc=v=>(v*100).toFixed(0)+'%';
+    if(pf.kind==='none')return `<td class="dx" title="nothing distributed to either side yet — declares ${pc(pf.expH)} to holders">—</td>`;
+    if(pf.kind==='creatorOnly')return `<td class="am" title="the creator has been paid while holders have received nothing, against a declared ${pc(pf.expH)} to holders">\u26a0 creator only</td>`;
+    if(pf.kind==='thin')return `<td class="mu" title="${pf.rn} round(s) — a creator claim can lead or lag a holder payout by a whole round, so this is not yet a verdict">~ ${pc(pf.obsH)}</td>`;
+    return pf.kind==='ok'
+     ? `<td class="up" title="over ${pf.rn} rounds: ${pc(pf.obsH)} to holders / ${pc(pf.obsC)} to the creator — matches the declared ${pc(pf.expH)}/${pc(pf.expC)}">\u2713 ${pc(pf.obsH)}</td>`
+     : `<td class="am" title="over ${pf.rn} rounds the split is ${pc(pf.obsH)} holders / ${pc(pf.obsC)} creator against a declared ${pc(pf.expH)}/${pc(pf.expC)} — a ${(pf.gap*100).toFixed(1)} point gap">\u2717 ${pc(pf.obsH)} vs ${pc(pf.expH)}</td>`;
+  })()}
+  <td class="mu">${ago(r.boundAt)}</td></tr>`}).join('')}</tbody></table>`;
  /* reward mix */
  const mix={};live.forEach(t=>(t.basket||[]).forEach(([a,w])=>{const s=symOf(a);mix[s]=(mix[s]||0)+1}));
  const me=Object.entries(mix).sort((a,b)=>b[1]-a[1]).slice(0,10);
