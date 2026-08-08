@@ -233,8 +233,19 @@ border-radius:10px;padding:14px 18px 15px;margin-bottom:12px}
 .flag .ft{background:var(--blu);color:#fff;font-size:9px;font-weight:700;letter-spacing:.15em;
 padding:3px 8px;border-radius:4px}
 .flag .fd{font-size:9.5px;letter-spacing:.12em;color:var(--dim);font-weight:600}
-.flag h2{font-size:19px;font-weight:500;letter-spacing:-.02em;line-height:1.3;margin-bottom:9px;max-width:1050px}
-.flag p{font-size:12.5px;line-height:1.7;color:var(--mut);max-width:1050px;margin-bottom:7px}
+/* FULL-BLEED, MULTI-COLUMN. These two rules carried max-width:1050px, which on a
+   2600px display left ~1500px of dead black to the right of every finding — the
+   exact thing the layout mandate forbids, and I then made it worse by adding two
+   more paragraphs to the same narrow column.
+   The max-width existed for a real reason: a 2600px-wide line of 12.5px text is
+   unreadable. The answer is NOT a void, it is COLUMNS. `columns:3 330px` means
+   "up to three columns, each at least 330px" — the browser fits as many as the
+   viewport allows and drops to one on a phone with no media query. Line length
+   stays readable, the pane fills, nothing is wasted. */
+.flag{columns:3 330px;column-gap:26px}
+.flag .fh,.flag h2,.flag .fm{column-span:all}
+.flag h2{font-size:19px;font-weight:500;letter-spacing:-.02em;line-height:1.3;margin-bottom:9px}
+.flag p{font-size:12.5px;line-height:1.7;color:var(--mut);margin-bottom:7px;break-inside:avoid}
 .flag p b{color:var(--ink);font-weight:600}
 .flag .fm{border-top:1px solid var(--hair);padding-top:9px;margin-top:10px;margin-bottom:0}
 .burst{padding:16px 12px}
@@ -453,7 +464,7 @@ pointer-events:none;transition:all .2s ease;z-index:50}
     every other protocol on the same terms, and we will report what breaks even when what breaks is
     ours. <span class="dx">Disclosure: SUBDEX operates the SUBINDEX treasury. Nothing on this site is
     investment advice.</span></p>
-    <h2 style="margin-top:22px">What SUBINDEX has actually shown, including where it failed.</h2>
+    <h2 style="margin-top:18px;column-span:all">What SUBINDEX has actually shown, including where it failed.</h2>
     <p>The honest scoreboard: SUBINDEX has executed <b>zero rounds</b> and paid nobody anything. It
     holds 17 reward assets on a 15-minute epoch with 100% of distributions to holders — the most
     demanding configuration on the launchpad — and none of that is why it has paid nothing.</p>
@@ -759,4 +770,4 @@ pointer-events:none;transition:all .2s ease;z-index:50}
 (function(){try{var t=localStorage.getItem('si_theme');
 if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
 document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
-<script src="app.js?v=14"></script></body></html>
+<script src="app.js?v=15"></script></body></html>
