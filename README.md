@@ -1,4 +1,4 @@
-# SubIndex — independent onchain yield analytics
+# SUBDEX — independent onchain yield analytics
 
 Public, unaffiliated analytics for distribution protocols on Robinhood Chain:
 the Index fee-treasury launchpad ("Indices"), $INDEX itself, and the tokenized

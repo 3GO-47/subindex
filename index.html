@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SubIndex — onchain yield terminal · Robinhood Chain</title>
+<title>SUBDEX — onchain yield terminal · Robinhood Chain</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -12,12 +12,12 @@
      LINE when the gate comes down. -->
 <meta name="robots" content="noindex,nofollow">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="SubIndex">
+<meta property="og:site_name" content="SUBDEX">
 <meta property="og:image" content="https://subdex.org/assets/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="SUBINDEX — same basket, supports INDEX">
 <meta name="twitter:image" content="https://subdex.org/assets/og.jpg">
-<meta property="og:title" content="$SUBINDEX — same basket, supports INDEX | SubIndex">
+<meta property="og:title" content="$SUBINDEX — same basket, supports INDEX | SUBDEX">
 <meta property="og:description" content="$SUBINDEX pays holders a 17-stock basket every 15 minutes, 100% to holders, 0% to the creator — deliberately the most demanding treasury on the Index launchpad. Live payout clocks for every protocol, keeper liveness, and read-only dividend tracking for any wallet.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@TheSubIndexFi">
@@ -367,131 +367,13 @@ pointer-events:none;transition:all .2s ease;z-index:50}
 }
 @media(max-width:480px){.mega{grid-template-columns:1fr}}
 
-/* ══ TEMPORARY ACCESS GATE ═══════════════════════════════════════════════════
-   Pre-launch curtain, styled from the same tokens as the terminal: paper
-   #edece8, ink #191918, cornflower #a9c0de, the "/ 01 / LABEL" eyebrow.
-
-   READ THIS BEFORE TRUSTING IT: this is a CURTAIN, NOT SECURITY. The site is
-   static, so the check runs in the visitor's own browser — anyone can read the
-   source, disable JavaScript, or request protocols.json directly and get
-   everything. The password is stored as a SHA-256 digest rather than plaintext,
-   which stops a casual glance at the source, and nothing more than that.
-   For access control that actually holds, put Cloudflare Access in front of the
-   Pages project: it authenticates at the EDGE, so unauthorised requests never
-   reach the file at all. Free for up to 50 users. */
-html.sx-locked body>.app{display:none!important}
-html.sx-locked{overflow:hidden}
-#sxgate{position:fixed;inset:0;z-index:9999;background:var(--paper,#edece8);
-  display:flex;align-items:center;justify-content:center;padding:24px}
-#sxgate .box{width:100%;max-width:420px}
-#sxgate .eyebrow{font:600 11px/1 var(--sans,system-ui);letter-spacing:1.32px;
-  color:var(--dim,#a3a39c);text-transform:uppercase;margin-bottom:18px}
-#sxgate .mark{display:flex;align-items:center;gap:9px;margin-bottom:14px}
-#sxgate .mark img{border-radius:6px;display:block}
-#sxgate h1{font:700 25px/1 var(--sans,system-ui);letter-spacing:-.4px;
-  color:var(--ink,#191918);margin:0}
-#sxgate h1 span{color:#a9c0de}
-#sxgate .card{background:var(--card,#fff);border:1px solid var(--hair,#eceae6);border-radius:10px;
-  padding:20px 20px 18px}
-#sxgate p{font:400 13.5px/1.55 var(--sans,system-ui);color:var(--mut,#5f5f58);margin:0 0 16px}
-#sxgate .row{display:flex;gap:8px}
-#sxgate input{flex:1 1 auto;min-width:0;font:400 14px var(--sans,system-ui);
-  color:var(--ink,#191918);background:var(--soft,#fbfbfa);border:1px solid var(--hair2,#dcdad4);
-  border-radius:7px;padding:10px 12px;outline:none}
-#sxgate input:focus{border-color:#a9c0de;box-shadow:0 0 0 3px rgba(169,192,222,.28)}
-#sxgate button{flex:0 0 auto;font:600 12.5px var(--sans,system-ui);letter-spacing:.06em;
-  color:#191918;background:#a9c0de;border:0;border-radius:7px;padding:10px 17px;
-  cursor:pointer}
-#sxgate button:hover{background:#93aed1}
-html[data-theme=dark] #sxgate button{color:#0e1114}
-#sxgate .err{font:500 12px var(--sans,system-ui);color:#b4463c;margin-top:10px;
-  min-height:15px}
-#sxgate .foot{font:400 11.5px/1.5 var(--sans,system-ui);color:var(--dim,#a3a39c);margin-top:16px}
-@keyframes sxshake{10%,90%{transform:translateX(-2px)}30%,70%{transform:translateX(3px)}
-  50%{transform:translateX(-3px)}}
-#sxgate .card.bad{animation:sxshake .4s}
 </style></head><body>
-<!-- TEMPORARY PRE-LAUNCH GATE. Remove this block and the sx-locked CSS to open the
-     site. See the CSS note: this is a curtain, not access control. -->
-<div id="sxgate" hidden>
- <div class="box">
-  <div class="eyebrow">/ 01 / RESTRICTED</div>
-  <div class="mark">
-   <img src="assets/logo-64.png" width="26" height="26" alt="SubIndex">
-   <h1>SUBINDE<span>X</span></h1>
-  </div>
-  <div class="card" id="sxcard">
-   <p>This terminal isn't open to the public yet. Enter the access phrase to continue.</p>
-   <div class="row">
-    <input id="sxpw" type="password" autocomplete="off" spellcheck="false"
-      placeholder="access phrase" aria-label="Access phrase">
-    <button id="sxgo" type="button">ENTER</button>
-   </div>
-   <div class="err" id="sxerr" role="status" aria-live="polite"></div>
-  </div>
-  <div class="foot">Independent terminal for distribution protocols on Robinhood Chain.
-   Unaffiliated with any protocol. Not investment advice.</div>
- </div>
-</div>
-<script>
-/* Runs before the app script. Hides the terminal until unlocked, so content never
-   flashes on screen first. The digest is SHA-256 of the phrase — storing the hash
-   instead of the literal keeps it out of a casual source read, which is the entire
-   extent of the protection here. */
-(function(){
- var KEY='sx_gate_ok', DIGEST='94f199da64a20a5c706cf37f1cb714570280ad024035ee7f09f3c0b24d356a1a';
- var root=document.documentElement;
- try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
- root.classList.add('sx-locked');
- function open_(){
-  try{localStorage.setItem(KEY,'1')}catch(e){}
-  root.classList.remove('sx-locked');
-  var g=document.getElementById('sxgate'); if(g)g.remove();
-  /* the app measures layout on load; tell it the viewport is real now */
-  try{window.dispatchEvent(new Event('resize'))}catch(e){}
- }
- /* fallback hash for any context where crypto.subtle is unavailable (plain http).
-    FNV-1a is not cryptographic — it only has to avoid shipping the literal. */
- function weak(str){var h=2166136261;for(var i=0;i<str.length;i++){
-   h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
- var WEAK='bc046eee';   /* fnv1a of the phrase — computed, never the literal */
- function check(v){
-  var sub=window.crypto&&window.crypto.subtle;
-  if(!sub)return Promise.resolve(weak(v)===WEAK);
-  return sub.digest('SHA-256',new TextEncoder().encode(v)).then(function(b){
-   var h=Array.prototype.map.call(new Uint8Array(b),function(x){
-     return ('0'+x.toString(16)).slice(-2)}).join('');
-   return h===DIGEST;
-  }).catch(function(){return weak(v)===WEAK});
- }
- function attempt(){
-  var i=document.getElementById('sxpw'), e=document.getElementById('sxerr'),
-      c=document.getElementById('sxcard');
-  if(!i)return;
-  check(i.value).then(function(ok){
-   if(ok){open_();return}
-   if(e)e.textContent='Not recognised.';
-   if(c){c.classList.remove('bad');void c.offsetWidth;c.classList.add('bad')}
-   i.value='';i.focus();
-  });
- }
- function wire(){
-  var g=document.getElementById('sxgate'); if(g)g.hidden=false;
-  var b=document.getElementById('sxgo'), i=document.getElementById('sxpw');
-  if(b)b.addEventListener('click',attempt);
-  if(i){i.addEventListener('keydown',function(ev){if(ev.key==='Enter')attempt()});
-        setTimeout(function(){try{i.focus()}catch(e){}},60);}
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);
- else wire();
-})();
-</script>
 <div class="app">
 <aside>
  <div class="logo"><div style="display:flex;align-items:center;gap:8px">
-  <img src="assets/logo-64.png" width="24" height="24" alt="SubIndex"
+  <img src="assets/logo-64.png" width="24" height="24" alt="SUBDEX"
     style="flex:0 0 auto;border-radius:6px;display:block">
-  <h1>SUBINDE<span>X</span></h1></div><div class="sub">ONCHAIN YIELD TERMINAL · RH CHAIN</div></div>
+  <h1>SUBDE<span>X</span></h1></div><div class="sub">ONCHAIN YIELD TERMINAL · RH CHAIN</div></div>
  <nav id="nav">
   <a data-v="over" class="on"><span class="ic">◧</span><span>OVERVIEW</span><span class="k">1</span></a>
   <a data-v="prot"><span class="ic">⛁</span><span>PROTOCOLS</span><span class="k">2</span></a>
@@ -524,8 +406,8 @@ html[data-theme=dark] #sxgate button{color:#0e1114}
         style="flex:0 0 auto;border-radius:8px;display:block">
       <div>
        <h1>$SUBINDEX <span class="tkb">SAME BASKET · SUPPORTS INDEX</span>
-        <span class="tkb" style="background:var(--blu2);color:var(--bluD)">17-ASSET STRESS TEST</span></h1>
-       <div class="tksub">the official page for the SubIndex treasury coin · pays the same tokenized
+        <span class="tkb" style="background:var(--blu2);color:var(--bluD)">EXPERIMENT 01 · 17-ASSET STRESS TEST</span></h1>
+       <div class="tksub">the official page for the SUBDEX treasury coin · pays the same tokenized
         stock basket while routing part of its fees to INDEX payouts — 17 assets on a 15-minute
         epoch, 100% to holders, 0% to the creator</div>
       </div>
@@ -563,14 +445,75 @@ html[data-theme=dark] #sxgate button{color:#0e1114}
     executed <b>zero</b> rounds, while single-asset baskets fill the top of the rounds table — but it is
     confounded: those wide-basket coins also have no trading volume yet, and therefore no fees to
     distribute at all. Untangling breadth from fee starvation needs a case where one is held fixed.</p>
-    <p class="fm"><b>So that is what SubIndex is for.</b> We operate
+    <p class="fm"><b>So that is what SUBDEX is for.</b> We operate
     <a href="https://indices.theindex.finance/coin/0xa50b5777f4cf28b10365bc85fd693006042b0b2a" target="_blank" rel="noopener">SUBINDEX</a>
     — deliberately the most demanding configuration available on the launchpad: <b>17 reward assets,
     a 15-minute epoch, 100% of distributions to holders, nothing to the creator</b>. It is a test
     instrument, not a pitch. Every round it completes, fails, or delays is published here alongside
     every other protocol on the same terms, and we will report what breaks even when what breaks is
-    ours. <span class="dx">Disclosure: SubIndex operates the SUBINDEX treasury. Nothing on this site is
+    ours. <span class="dx">Disclosure: SUBDEX operates the SUBINDEX treasury. Nothing on this site is
     investment advice.</span></p>
+    <h2 style="margin-top:22px">What SUBINDEX has actually shown, including where it failed.</h2>
+    <p>The honest scoreboard: SUBINDEX has executed <b>zero rounds</b> and paid nobody anything. It
+    holds 17 reward assets on a 15-minute epoch with 100% of distributions to holders — the most
+    demanding configuration on the launchpad — and none of that is why it has paid nothing.</p>
+    <p><b>The proven cause is one thing, and it is not breadth.</b> SUBINDEX never graduated its
+    bonding curve. Graduation needs the curve to raise a set amount of ETH; until that happens there is
+    no pool, so no trading fees, so nothing whatsoever to distribute. Zero rounds is the arithmetic
+    consequence of zero fees, and no configuration choice would have changed it.</p>
+    <p><b>What we cannot yet claim.</b> The tempting story is that 17 assets is too many, and the
+    surface data looks supportive — every coin with eight or more reward assets has zero rounds. But
+    that is <b>two coins</b>, SUBINDEX and one other, and <i>neither has graduated either</i>, so
+    breadth is not being tested at the high end at all; the sample cannot separate it from the same
+    fee starvation. Against it: BRRR runs <b>7 assets and 49 rounds</b>, TEST 7 assets and 35. The
+    keeper arithmetic is real and measured — ~11 tx/min, one transaction per holder, ~84 minutes for a
+    full sweep, so a 15-minute epoch remains a floor rather than a schedule — but the claim that
+    breadth is what stalls a payout is <b>unproven, and we are not going to assert it because it
+    flatters our own next launch</b>. Nor does the distribution split explain anything: JACKET routes
+    100% to holders and has executed 184 rounds.</p>
+    <p class="fm"><b>So the next instrument fixes the variable that actually failed.</b> The lesson
+    SUBINDEX taught is not "use fewer assets" — it is that a treasury is worth nothing until its coin
+    graduates and trades. The next instrument is built to clear that bar first and to keep every round
+    cheap enough that breadth never becomes the excuse:
+    <a href="#yldPanel" onclick="document.getElementById('yldPanel').scrollIntoView({behavior:'smooth',block:'center'});return false">SUBDEX&nbsp;($YLD)</a>, deliberately the cheapest
+    round we can construct rather than the most demanding: <b>a single reward asset, an epoch longer than
+    the measured sweep, and USDG as the pair</b>. Same operator, same publishing terms, opposite end of
+    the cost curve. SUBINDEX stays live and stays reported — a control is only useful if you keep
+    running it. <span class="dx">$YLD is not deployed yet; nothing on this page is an offer or
+    investment advice.</span></p>
+   </div>
+   <div class="panel" id="yldPanel" style="border-color:var(--blu2);flex:0 0 auto">
+    <div class="ph" style="--pc:var(--blu)"><h2>Experiment 02 — SUBDEX <span class="dx">ticker</span> $YLD</h2>
+     <span class="d">the efficiency counterpart to SUBINDEX · <b id="yldState">pre-launch</b></span></div>
+    <div class="pb" style="padding:0">
+     <div id="yldLive"></div>
+     <div class="cols" style="grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--hair)">
+      <div style="padding:14px 16px;border-right:1px solid var(--hair)">
+       <div class="eyb">/ 01 / DESIGN INTENT</div>
+       <table class="mini"><tbody>
+        <tr><td>Reward assets</td><td><b>1</b> <span class="dx">vs 17 on SUBINDEX — one conversion per round</span></td></tr>
+        <tr><td>Epoch</td><td><b>longer than the sweep</b> <span class="dx">a schedule the keeper can keep, not a floor</span></td></tr>
+        <tr><td>Pair</td><td><b>USDG</b> <span class="dx">the currency the distributor already spends</span></td></tr>
+        <tr><td>Distribution split</td><td><b>to be set at launch</b> <span class="dx">SUBINDEX's 0%-to-creator left nobody to fund liquidity</span></td></tr>
+       </tbody></table>
+      </div>
+      <div style="padding:14px 16px">
+       <div class="eyb">/ 02 / WHY USDG IS THE PAIR</div>
+       <p style="margin:0;font-size:12.5px;line-height:1.55;color:var(--mut)">Verified on chain, not from documentation:
+       the contract behind every one of these payouts is <b>USDGBuyerDistributorV2</b>
+       (<code>0x39ADB8ac…B7c4</code>). It <b>spends USDG</b> through <code>buyStocksRialto()</code> to
+       buy the reward asset, then fans it out with <code>distributeBatch()</code>. USDG is the input
+       currency of the only working distribution machinery on this chain, so a USDG-paired pool
+       accumulates exactly what the distributor consumes — no sell-into-USDG leg before a round can
+       start. Every other pair adds a hop to every round, forever.</p>
+      </div>
+     </div>
+     <div class="lgl" style="padding:10px 16px;border-top:1px solid var(--hair)">
+      <b style="color:var(--mut)">Not deployed.</b> No contract address exists yet, so this panel shows
+      design intent only. The moment a treasury named SUBDEX or ticker YLD appears on the launchpad, the
+      live metrics above populate from the same chain feed as every other protocol on this site — the
+      figures are not hand-entered here and never will be.</div>
+    </div>
    </div>
    <div class="mega" id="heroOver"></div>
    <div class="cols" style="grid-template-columns:1.55fr 1fr">
@@ -730,7 +673,7 @@ html[data-theme=dark] #sxgate button{color:#0e1114}
     <a href="https://robinhoodchain.blockscout.com/token/0x56910d4409f3a0c78c64dd8d0545ff0705389870" target="_blank" rel="noopener">0x5691…9870</a>
     · distributor
     <a href="https://robinhoodchain.blockscout.com/address/0x39adb8acd07427d338b5f1afab436a04abfdb7c4" target="_blank" rel="noopener">0x39ad…b7c4</a>.
-    SubIndex is not affiliated with Index. Nothing here is investment advice.</div>
+    SUBDEX is not affiliated with Index. Nothing here is investment advice.</div>
   </div>
   <div class="view" id="v-rail">
    <div class="panel"><div class="ph" style="--pc:#3a8f85"><h2>What the dividends are paid in</h2>
@@ -783,7 +726,7 @@ html[data-theme=dark] #sxgate button{color:#0e1114}
      <dd>If a figure here is wrong, it is wrong in public and we want to know. We have already retracted one of our
       own indicators after proving it could never fire; that record stays visible rather than being quietly deleted.</dd>
     </dl></div>
-    <div class="lgl"><b style="color:var(--mut)">SubIndex is independent and unaffiliated.</b> Not affiliated with,
+    <div class="lgl"><b style="color:var(--mut)">SUBDEX is independent and unaffiliated.</b> Not affiliated with,
      endorsed by, or speaking for The Index, Robinhood Markets, or any project or token listed here. Nothing on this
      site is financial, investment, legal or tax advice, and nothing here is an offer or solicitation. Distributions
      are tokenized assets, not brokerage shares — no voting rights, no corporate dividends. Payouts depend on
@@ -806,4 +749,4 @@ html[data-theme=dark] #sxgate button{color:#0e1114}
 (function(){try{var t=localStorage.getItem('si_theme');
 if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
 document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
-<script src="app.js"></script></body></html>
+<script src="app.js?v=9"></script></body></html>

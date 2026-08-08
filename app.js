@@ -1,4 +1,4 @@
-/* SubIndex — onchain yield terminal. Independent, unaffiliated.
+/* SUBDEX — onchain yield terminal. Independent, unaffiliated.
    Runs entirely in the reader's browser against public endpoints.
    Editorial rule: facts and method, never verdicts. Absent data is labelled
    absent, never rendered as a zero. */
@@ -115,9 +115,32 @@ const symOf=a=>a===ZERO?'ETH':(META[a]&&META[a].sym)||SYMBY[a]||sh(a);
 const S={tre:[],px:{},pools:[],keeper:null,holders:{},dist:[],block:null,snapAge:null,
  sort:{k:'rounds',dir:-1},filt:{q:'',payers:false,migrated:false,full:false,direct:false,held:false,curve:false},w:null};
 
+/* ══ INSTANT FIRST PAINT ═════════════════════════════════════════════════════
+   The page used to render skeletons until protocols.json came back over the
+   network — so every load and every reload showed empty panels first, and on a
+   cold cache or a slow connection that is what a visitor judges the site by.
+
+   The registry is a SNAPSHOT by design (see METHOD), which means yesterday's copy
+   is still a truthful answer to "what did the last read say" — it just has to be
+   LABELLED as that and replaced the moment the live read lands. So: keep the last
+   payload in localStorage, paint from it synchronously at boot, then revalidate.
+   Stale-while-revalidate, with the staleness stated rather than hidden, which is
+   the same editorial rule the rest of the page follows: absent or old data is
+   labelled, never dressed up as fresh. */
+const SNAPKEY='si_snap_v1', SNAPMAX=7*864e5;   /* a week; older is not worth showing */
+function snapSave(raw){
+ try{localStorage.setItem(SNAPKEY,JSON.stringify({t:Date.now(),d:raw}))}catch(e){}
+}
+function snapLoad(){
+ try{
+  const o=JSON.parse(localStorage.getItem(SNAPKEY)||'null');
+  if(!o||!o.d||!o.t)return null;
+  if(Date.now()-o.t>SNAPMAX)return null;
+  return o;
+ }catch(e){return null}
+}
 /* ── registry snapshot (see METHOD tab for why this is a snapshot) ── */
-async function loadRegistry(){
- const d=await jf('protocols.json?t='+Date.now());
+function mapRegistry(d){
  S.snapAge=d.source_generated?(Date.now()-Date.parse(d.source_generated))/60000:null;
  S.keeperSnap=d.keeper||{};
  return (d.coins||[]).map(c=>{let basket=[];
@@ -131,6 +154,11 @@ async function loadRegistry(){
    sym:c.sym,name:c.name,basket,bps:nz(c.distribute_bps),epochLength:nz(c.epoch_sec),creator:c.creator,
    rounds:nz(c.rounds_n)||0,lastRound:nz(c.last_round),next:nz(c.next_payout),
    boundAt:nz(c.bound_at),deployedAt:nz(c.deployed_at)}});
+}
+async function loadRegistry(){
+ const d=await jf('protocols.json?t='+Date.now());
+ snapSave(d);                       /* next visit paints instantly from this */
+ return mapRegistry(d);
 }
 async function prices(addrs){
  const px={};const list=[...new Set(addrs.filter(Boolean))];
@@ -208,7 +236,16 @@ async function loadDistributions(tre){
 async function bsPages(path,maxPages,cap){
  const out=[];let np=null;
  for(let i=0;i<(maxPages||8);i++){
-  const q=np?('&'+Object.entries(np).filter(([,v])=>v!=null)
+  /* SEPARATOR MUST DEPEND ON THE PATH. This joined the next-page params with '&'
+     unconditionally, which is correct only when the path already carries a '?'.
+     Most callers do — but '/addresses/<keeper>/transactions' does not, so from
+     page 2 onward the entire query string was appended INTO THE PATH:
+       /addresses/0x179a…/transactions&block_number=311…&fee=669…
+     Blockscout answered 400 on every load, and the keeper history silently
+     truncated to a single page — so every "calls in the sampled window" figure
+     was understated and the console carried a red error nobody had chased. */
+  const sep=path.indexOf('?')>=0?'&':'?';
+  const q=np?(sep+Object.entries(np).filter(([,v])=>v!=null)
    .map(([k,v])=>k+'='+encodeURIComponent(typeof v==='boolean'?(v?'true':'false'):String(v))).join('&')):'';
   let r;
   try{r=await bs(path+q)}catch(e){break}
@@ -611,6 +648,50 @@ function renderTok(){
     :nx?`<span data-cd="${nx}" style="font-size:15px">…</span>`:'—',
     (t&&(t.rounds||0)===0&&!(mkt&&mkt.vol>0))?'needs trading volume first':'15-minute epoch');
 }
+/* ══ EXPERIMENT 02 — SUBDEX / $YLD ══════════════════════════════════════════
+   The panel ships describing design intent because the coin is not deployed. It
+   must NOT hand-carry numbers: the moment a treasury called SUBDEX (or ticker
+   YLD) binds on the launchpad, it appears in the same protocols feed as every
+   other coin, and this fills from that feed on the next render.
+
+   Matched on BOTH name and symbol because the coin is named SUBDEX while its
+   ticker is YLD — keying on one alone would miss it. Address is still the real
+   primary key, but we do not have the address until it exists, which is exactly
+   the case a symbol match is for. */
+function yldFind(){
+ try{
+  return (S.tre||[]).find(x=>{
+   const sy=String(x.sym||'').toUpperCase(), nm=String(x.name||'').toUpperCase();
+   return sy==='YLD'||sy==='SUBDEX'||nm==='SUBDEX'||nm==='THE SUBDEX';
+  })||null;
+ }catch(e){return null}
+}
+function renderYld(){
+ const box=$('#yldLive'), st=$('#yldState');
+ if(!box)return;
+ const t=yldFind();
+ if(!t){
+  if(st){st.textContent='pre-launch — not yet deployed';st.style.color='var(--mut)'}
+  box.innerHTML='';
+  return;
+ }
+ /* it exists — report it on exactly the same terms as every other protocol */
+ if(st){st.textContent='LIVE on chain';st.style.color='var(--up,#2f7d4f)'}
+ const m=(S.px&&S.px[t.coin])||{};
+ const cell=(l,v,sub)=>`<div class="kpi"><div class="kl">${l}</div><div class="kv">${v}</div>`+
+   (sub?`<div class="kd">${sub}</div>`:'')+`</div>`;
+ const m$=v=>v==null?'—':v>=1e6?'$'+(v/1e6).toFixed(2)+'M':v>=1e3?'$'+(v/1e3).toFixed(1)+'k':'$'+(+v).toFixed(2);
+ const assets=(()=>{try{const b=typeof t.basket==='string'?JSON.parse(t.basket):t.basket;
+   return Array.isArray(b)?b.length:null}catch(e){return null}})();
+ box.innerHTML='<div class="tkm" style="border:0">'+[
+  cell('PRICE', m.px!=null?('$'+(+m.px).toPrecision(3)):'—', 'live quote'),
+  cell('MARKET CAP', m$(m.mc), 'fully diluted'),
+  cell('HOLDERS', t.holders!=null?t.holders.toLocaleString():'—', 'eligible every round'),
+  cell('REWARD ASSETS', assets!=null?assets:'—', 'one conversion per round'),
+  cell('TO HOLDERS', t.bps!=null?(t.bps/100).toFixed(0)+'%':'—', 'of each distribution'),
+  cell('ROUNDS PAID', t.rounds!=null?t.rounds:'—', 'finalized on chain'),
+ ].join('')+'</div>';
+}
 function renderOver(){
  const live=S.tre.filter(t=>t.coin),rows=rowsOf();
  const ix=S.px[C.index]||{},k=S.keeper||{};
@@ -618,6 +699,11 @@ function renderOver(){
  /* unknown last-run means the explorer is throttling us, NOT that the keeper
     stopped — flagging it red would be a false alarm on our own rate limit */
  const kOk=(lastM==null||lastM<45)&&(k.gas==null||k.gas>0.05);
+ renderYld();                    /* fills only if the coin has actually launched */
+                                 /* deliberately NOT wrapped in try/catch: a silent
+                                    catch here hid the fact that this function was
+                                    never reaching the page at all. If it throws, it
+                                    should be visible in the console, not absorbed. */
  const payers=live.filter(t=>t.rounds>0).length;
  const totVol=rows.reduce((a,r)=>a+((r.mkt&&r.mkt.vol)||0),0);
  const totLiq=rows.reduce((a,r)=>a+((r.mkt&&r.mkt.liq)||0),0);
@@ -1280,7 +1366,23 @@ function status(t,c){$('#lstat').textContent=t;$('#ldot').className='dot'+(c?' '
 /* ══ boot ══ */
 async function boot(){
  try{
-  status('reading chain…');
+  /* CACHED PAINT FIRST. Synchronous, before any await, so the first frame the
+     visitor sees has real rows in it. Everything is then overwritten by the live
+     read a moment later. Wrapped so a corrupt cache entry can never block boot —
+     the network path is the source of truth and must still run either way. */
+  let paintedFromCache=false;
+  try{
+   const cached=snapLoad();
+   if(cached){
+    S.tre=mapRegistry(cached.d);
+    try{Object.assign(S.px,JSON.parse(localStorage.getItem('si_px_v1')||'{}'))}catch(e){}
+    paintTop();renderOver();renderProt();renderKeep();
+    paintedFromCache=true;
+    const mins=Math.round((Date.now()-cached.t)/60000);
+    status('cached snapshot '+(mins<1?'just now':mins+'m old')+' · refreshing…','warn');
+   }
+  }catch(e){}
+  if(!paintedFromCache)status('reading chain…');
   S.tre=await loadRegistry();                 /* registry first: it is the page */
   (async()=>{try{S.keeper=await keeperState();paintTop();renderOver();renderKeep()}catch(e){}})();
   Object.assign(S.px,await prices([C.index,...S.tre.filter(t=>t.coin).map(t=>t.coin)]));
@@ -1290,6 +1392,13 @@ async function boot(){
   await Promise.all([...S.tre.filter(t=>t.coin).map(t=>t.coin).slice(0,40),...bskAssets]
    .map(a=>meta(a).catch(()=>{})));
   paintTop();renderOver();renderProt();renderKeep();try{renderWEmpty()}catch(e){}try{renderProv()}catch(e){}
+  /* prices are the volatile half — cache them so a cached paint shows figures
+     rather than a grid of dashes. Trimmed to the fields the tables read. */
+  try{
+   const keep={};
+   Object.keys(S.px).forEach(k=>{const v=S.px[k];if(v)keep[k]={px:v.px,mc:v.mc,liq:v.liq,vol:v.vol,ch24:v.ch24}});
+   localStorage.setItem('si_px_v1',JSON.stringify(keep));
+  }catch(e){}
   /* warm the INDEX read in the background so opening tab 6 is instant */
   setTimeout(()=>loadIndex().catch(()=>{}),4000);
   status('live','');
