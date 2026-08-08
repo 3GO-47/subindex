@@ -5,12 +5,18 @@
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <meta name="theme-color" content="#edece8">
+<link rel="canonical" href="https://subdex.org/">
+<meta property="og:url" content="https://subdex.org/">
+<!-- NOINDEX while the access gate is up: without this, crawlers index the curtain
+     instead of the terminal, and that snapshot can outlive the launch. REMOVE THIS
+     LINE when the gate comes down. -->
+<meta name="robots" content="noindex,nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SubIndex">
-<meta property="og:image" content="assets/og.jpg">
+<meta property="og:image" content="https://subdex.org/assets/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="SUBINDEX — same basket, supports INDEX">
-<meta name="twitter:image" content="assets/og.jpg">
+<meta name="twitter:image" content="https://subdex.org/assets/og.jpg">
 <meta property="og:title" content="$SUBINDEX — same basket, supports INDEX | SubIndex">
 <meta property="og:description" content="$SUBINDEX pays holders a 17-stock basket every 15 minutes, 100% to holders, 0% to the creator — deliberately the most demanding treasury on the Index launchpad. Live payout clocks for every protocol, keeper liveness, and read-only dividend tracking for any wallet.">
 <meta name="twitter:card" content="summary_large_image">
@@ -360,7 +366,126 @@ pointer-events:none;transition:all .2s ease;z-index:50}
  .feed{max-height:280px}
 }
 @media(max-width:480px){.mega{grid-template-columns:1fr}}
+
+/* ══ TEMPORARY ACCESS GATE ═══════════════════════════════════════════════════
+   Pre-launch curtain, styled from the same tokens as the terminal: paper
+   #edece8, ink #191918, cornflower #a9c0de, the "/ 01 / LABEL" eyebrow.
+
+   READ THIS BEFORE TRUSTING IT: this is a CURTAIN, NOT SECURITY. The site is
+   static, so the check runs in the visitor's own browser — anyone can read the
+   source, disable JavaScript, or request protocols.json directly and get
+   everything. The password is stored as a SHA-256 digest rather than plaintext,
+   which stops a casual glance at the source, and nothing more than that.
+   For access control that actually holds, put Cloudflare Access in front of the
+   Pages project: it authenticates at the EDGE, so unauthorised requests never
+   reach the file at all. Free for up to 50 users. */
+html.sx-locked body>.app{display:none!important}
+html.sx-locked{overflow:hidden}
+#sxgate{position:fixed;inset:0;z-index:9999;background:var(--paper,#edece8);
+  display:flex;align-items:center;justify-content:center;padding:24px}
+#sxgate .box{width:100%;max-width:420px}
+#sxgate .eyebrow{font:600 11px/1 var(--sans,system-ui);letter-spacing:1.32px;
+  color:var(--dim,#a3a39c);text-transform:uppercase;margin-bottom:18px}
+#sxgate .mark{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+#sxgate .mark img{border-radius:6px;display:block}
+#sxgate h1{font:700 25px/1 var(--sans,system-ui);letter-spacing:-.4px;
+  color:var(--ink,#191918);margin:0}
+#sxgate h1 span{color:#a9c0de}
+#sxgate .card{background:var(--card,#fff);border:1px solid var(--hair,#eceae6);border-radius:10px;
+  padding:20px 20px 18px}
+#sxgate p{font:400 13.5px/1.55 var(--sans,system-ui);color:var(--mut,#5f5f58);margin:0 0 16px}
+#sxgate .row{display:flex;gap:8px}
+#sxgate input{flex:1 1 auto;min-width:0;font:400 14px var(--sans,system-ui);
+  color:var(--ink,#191918);background:var(--soft,#fbfbfa);border:1px solid var(--hair2,#dcdad4);
+  border-radius:7px;padding:10px 12px;outline:none}
+#sxgate input:focus{border-color:#a9c0de;box-shadow:0 0 0 3px rgba(169,192,222,.28)}
+#sxgate button{flex:0 0 auto;font:600 12.5px var(--sans,system-ui);letter-spacing:.06em;
+  color:#191918;background:#a9c0de;border:0;border-radius:7px;padding:10px 17px;
+  cursor:pointer}
+#sxgate button:hover{background:#93aed1}
+html[data-theme=dark] #sxgate button{color:#0e1114}
+#sxgate .err{font:500 12px var(--sans,system-ui);color:#b4463c;margin-top:10px;
+  min-height:15px}
+#sxgate .foot{font:400 11.5px/1.5 var(--sans,system-ui);color:var(--dim,#a3a39c);margin-top:16px}
+@keyframes sxshake{10%,90%{transform:translateX(-2px)}30%,70%{transform:translateX(3px)}
+  50%{transform:translateX(-3px)}}
+#sxgate .card.bad{animation:sxshake .4s}
 </style></head><body>
+<!-- TEMPORARY PRE-LAUNCH GATE. Remove this block and the sx-locked CSS to open the
+     site. See the CSS note: this is a curtain, not access control. -->
+<div id="sxgate" hidden>
+ <div class="box">
+  <div class="eyebrow">/ 01 / RESTRICTED</div>
+  <div class="mark">
+   <img src="assets/logo-64.png" width="26" height="26" alt="SubIndex">
+   <h1>SUBINDE<span>X</span></h1>
+  </div>
+  <div class="card" id="sxcard">
+   <p>This terminal isn't open to the public yet. Enter the access phrase to continue.</p>
+   <div class="row">
+    <input id="sxpw" type="password" autocomplete="off" spellcheck="false"
+      placeholder="access phrase" aria-label="Access phrase">
+    <button id="sxgo" type="button">ENTER</button>
+   </div>
+   <div class="err" id="sxerr" role="status" aria-live="polite"></div>
+  </div>
+  <div class="foot">Independent terminal for distribution protocols on Robinhood Chain.
+   Unaffiliated with any protocol. Not investment advice.</div>
+ </div>
+</div>
+<script>
+/* Runs before the app script. Hides the terminal until unlocked, so content never
+   flashes on screen first. The digest is SHA-256 of the phrase — storing the hash
+   instead of the literal keeps it out of a casual source read, which is the entire
+   extent of the protection here. */
+(function(){
+ var KEY='sx_gate_ok', DIGEST='94f199da64a20a5c706cf37f1cb714570280ad024035ee7f09f3c0b24d356a1a';
+ var root=document.documentElement;
+ try{ if(localStorage.getItem(KEY)==='1') return; }catch(e){}
+ root.classList.add('sx-locked');
+ function open_(){
+  try{localStorage.setItem(KEY,'1')}catch(e){}
+  root.classList.remove('sx-locked');
+  var g=document.getElementById('sxgate'); if(g)g.remove();
+  /* the app measures layout on load; tell it the viewport is real now */
+  try{window.dispatchEvent(new Event('resize'))}catch(e){}
+ }
+ /* fallback hash for any context where crypto.subtle is unavailable (plain http).
+    FNV-1a is not cryptographic — it only has to avoid shipping the literal. */
+ function weak(str){var h=2166136261;for(var i=0;i<str.length;i++){
+   h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
+ var WEAK='bc046eee';   /* fnv1a of the phrase — computed, never the literal */
+ function check(v){
+  var sub=window.crypto&&window.crypto.subtle;
+  if(!sub)return Promise.resolve(weak(v)===WEAK);
+  return sub.digest('SHA-256',new TextEncoder().encode(v)).then(function(b){
+   var h=Array.prototype.map.call(new Uint8Array(b),function(x){
+     return ('0'+x.toString(16)).slice(-2)}).join('');
+   return h===DIGEST;
+  }).catch(function(){return weak(v)===WEAK});
+ }
+ function attempt(){
+  var i=document.getElementById('sxpw'), e=document.getElementById('sxerr'),
+      c=document.getElementById('sxcard');
+  if(!i)return;
+  check(i.value).then(function(ok){
+   if(ok){open_();return}
+   if(e)e.textContent='Not recognised.';
+   if(c){c.classList.remove('bad');void c.offsetWidth;c.classList.add('bad')}
+   i.value='';i.focus();
+  });
+ }
+ function wire(){
+  var g=document.getElementById('sxgate'); if(g)g.hidden=false;
+  var b=document.getElementById('sxgo'), i=document.getElementById('sxpw');
+  if(b)b.addEventListener('click',attempt);
+  if(i){i.addEventListener('keydown',function(ev){if(ev.key==='Enter')attempt()});
+        setTimeout(function(){try{i.focus()}catch(e){}},60);}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);
+ else wire();
+})();
+</script>
 <div class="app">
 <aside>
  <div class="logo"><div style="display:flex;align-items:center;gap:8px">

@@ -17,4 +17,8 @@ deploy.bat
 serve.bat
 setup-git.bat
 scrub-history.bat
+# GATE-AND-DOMAIN.md states the access phrase in plain text and explains how the
+# gate can be bypassed. Publishing it would have made /GATE-AND-DOMAIN.md a public
+# URL handing out both — the exact shape of the TWEETS.md leak above.
+GATE-AND-DOMAIN.md
 data/
