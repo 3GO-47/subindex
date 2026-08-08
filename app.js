@@ -461,7 +461,11 @@ function distChart(pts,w,h,unit){
 }
 function donut(parts,size){
  const tot=parts.reduce((a,p)=>a+p.v,0)||1,R=size/2,r=R*0.62;let a0=-Math.PI/2,out='';
- const COL=['#4a72a8','#a9c0de','#2f4f7a','#c5c4bc','#6b8fbf','#8aa8cc','#dcdad3'];
+ /* Series colours, re-derived from the SUBDEXLADON art. The previous array was the
+   old cornflower/warm-grey set and would have rendered every chart off-brand
+   against the new palette — a hardcoded colour list is exactly the thing a theme
+   change silently misses. Blues carry the data, silver separates, green means up. */
+const COL=['#2B7BFF','#5AA7FF','#1B4FA8','#C4D0E2','#22C55E','#8A7BFF','#7F94B4'];
  parts.forEach((p,i)=>{const a1=a0+(p.v/tot)*Math.PI*2;
   const x0=R+R*Math.cos(a0),y0=R+R*Math.sin(a0),x1=R+R*Math.cos(a1),y1=R+R*Math.sin(a1);
   const xi1=R+r*Math.cos(a1),yi1=R+r*Math.sin(a1),xi0=R+r*Math.cos(a0),yi0=R+r*Math.sin(a0);
@@ -749,6 +753,47 @@ function renderYld(){
   cell('ROUNDS PAID', t.rounds!=null?t.rounds:'—', 'finalized on chain'),
  ].join('')+'</div>';
 }
+/* ══ ECOSYSTEM STRIP ════════════════════════════════════════════════════════
+   OVERVIEW used to open with OUR coin. That belonged on its own tab — this tab
+   should answer "what is the Indices protocol actually doing right now", so it
+   opens with the whole launchpad measured on one line.
+
+   Everything here is aggregated from data already loaded; no extra requests. The
+   fee ledger is on the cash basis established earlier (harvested = swept into the
+   treasury, dist.spent = cash that reached holders, dist.paid = a MARK and never
+   summed against the others). */
+function ecoStrip(){
+ const el=$('#ecoStrip'); if(!el)return;
+ const live=S.tre.filter(t=>t.coin), rows=rowsOf();
+ const F=v=>{try{return Number(BigInt(String(v||'0')))/1e18}catch(e){return 0}};
+ const sp=t=>(t.dist||[]).reduce((n,z)=>n+(+z.spent||0),0);
+ const pd=t=>(t.dist||[]).reduce((n,z)=>n+(+z.paid ||0),0);
+ const rounds=live.reduce((a,t)=>a+(t.rounds||0),0);
+ const payers=live.filter(t=>t.rounds>0).length;
+ const migrated=rows.filter(r=>r.mkt&&r.mkt.px>0).length;
+ const swept=live.reduce((a,t)=>a+F(t.harvested),0);
+ const toHold=live.reduce((a,t)=>a+sp(t),0);
+ const mark=live.reduce((a,t)=>a+pd(t),0);
+ const toCrea=live.reduce((a,t)=>a+F(t.creator_accrued),0);
+ const prot=live.reduce((a,t)=>a+F(t.protocol_fees),0);
+ const vol=rows.reduce((a,r)=>a+((r.mkt&&r.mkt.vol)||0),0);
+ const liq=rows.reduce((a,r)=>a+((r.mkt&&r.mkt.liq)||0),0);
+ const hold=Object.values(S.holders||{}).reduce((a,h)=>a+((h&&h.n)||0),0);
+ const assets=new Set(live.flatMap(t=>(t.basket||[]).map(b=>b[0]))).size;
+ const full=live.filter(t=>t.bps===10000).length;
+ const k=(l,v,s2,cls)=>`<div class="kpi"><div class="kl">${l}</div>`+
+   `<div class="kv ${cls||''}">${v}</div><div class="kd">${s2}</div></div>`;
+ el.innerHTML=
+  k('COINS LIVE', live.length, migrated+' migrated · '+(live.length-migrated)+' on curve')+
+  k('PAYING', payers, 'have finalized ≥1 round','up')+
+  k('ROUNDS, ALL TIME', rounds.toLocaleString(), 'distributions executed on chain')+
+  k('FEES SWEPT IN', m$(swept), 'into treasuries, cash basis')+
+  k('REACHED HOLDERS', m$(toHold), 'cash deployed · marked '+m$(mark),'up')+
+  k('TO CREATORS', m$(toCrea), (prot>0?m$(prot)+' to protocol':'—'))+
+  k('24H VOLUME', m$(vol), m$(liq)+' pooled across migrated books')+
+  k('HOLDERS', hold?hold.toLocaleString():'…', assets+' distinct reward assets')+
+  k('100% TO HOLDERS', full+'/'+live.length, 'take nothing for the creator','up');
+}
 function renderOver(){
  const live=S.tre.filter(t=>t.coin),rows=rowsOf();
  const ix=S.px[C.index]||{},k=S.keeper||{};
@@ -757,6 +802,7 @@ function renderOver(){
     stopped — flagging it red would be a false alarm on our own rate limit */
  const kOk=(lastM==null||lastM<45)&&(k.gas==null||k.gas>0.05);
  renderYld();                    /* fills only if the coin has actually launched */
+ try{ecoStrip()}catch(e){}       /* the launchpad on one line, above everything else */
                                  /* deliberately NOT wrapped in try/catch: a silent
                                     catch here hid the fact that this function was
                                     never reaching the page at all. If it throws, it
@@ -876,7 +922,9 @@ function renderOver(){
     twice; this one asks a question the data can actually answer — a coin paired
     against an asset it already pays needs no swap before a payout, so it should
     clear rounds faster than one that must convert first. */
- const CLSCOL={DIRECT:'var(--up)',STOCK:'var(--blu)',ETH:'#7a68c0',STABLE:'#3a8f85',CURVE:'var(--gold)'};
+ /* the two literals here were the old palette's violet/teal; use the tokens so a
+    theme change carries through instead of stranding two categories off-brand */
+ const CLSCOL={DIRECT:'var(--up)',STOCK:'var(--blu)',ETH:'var(--vio)',STABLE:'var(--bluD)',CURVE:'var(--gold)'};
 const CLS=[
   {k:'DIRECT', d:'paired against an asset it pays — no swap needed',
    t:r=>{const q=qOf(r);return !!q&&(r.basket||[]).some(([a])=>symOf(a).toUpperCase()===q)}},
@@ -1427,11 +1475,13 @@ function go(v){
  /* the distributor read is heavy, so it runs the first time the tab is opened
     rather than on boot — and renders from cache on every visit after that */
  if(v==='idx'){renderIndex();loadIndex().catch(()=>{})}   /* cached after the first read */
+ /* the token blocks moved off OVERVIEW, so their renderers have to fire here too */
+ if(v==='ours'){try{renderYld()}catch(e){}try{paintTop()}catch(e){}}
 }
 window.go=go;
 document.querySelectorAll('#nav a').forEach(a=>a.onclick=()=>go(a.dataset.v));
 document.addEventListener('keydown',e=>{
- const m={'1':'over','2':'prot','3':'divs','4':'pipe','5':'keep','6':'idx','7':'rail','8':'meth'};
+ const m={'1':'over','2':'prot','3':'divs','4':'pipe','5':'keep','6':'idx','7':'rail','8':'meth','9':'ours'};
  if(m[e.key]&&e.target.tagName!=='INPUT')go(m[e.key])});
 function status(t,c){$('#lstat').textContent=t;$('#ldot').className='dot'+(c?' '+c:'')}
 

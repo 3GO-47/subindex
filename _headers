@@ -8,8 +8,11 @@
 /protocols.json
   Cache-Control: no-cache, no-store, must-revalidate
 
-# Brand assets are content-addressed by name and never change in place, so they
-# can be cached hard — this is the only heavy bytes on the page.
+# Brand assets are cached for a year as immutable. That is ONLY safe because every
+# reference in index.html carries a ?v=N query. THEY ARE NOT CONTENT-ADDRESSED — the
+# filenames are stable and I overwrote them in place on 2026-08-08, which is exactly
+# why the sidebar kept rendering the old placeholder: identical URL, immutable policy,
+# zero revalidation. IF YOU REPLACE AN IMAGE, BUMP ?v= IN index.html OR NOBODY SEES IT.
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 

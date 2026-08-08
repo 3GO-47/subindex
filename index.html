@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SUBDEX — onchain yield terminal · Robinhood Chain</title>
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
-<link rel="icon" href="assets/favicon.ico" sizes="any">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-<meta name="theme-color" content="#edece8">
+<title>SUBDEX — learning onchain yield in public · Robinhood Chain</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=3">
+<link rel="icon" href="assets/favicon.ico?v=3" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=3">
+<meta name="theme-color" content="#04070E">
 <link rel="canonical" href="https://subdex.org/">
 <meta property="og:url" content="https://subdex.org/">
 <!-- NOINDEX while the access gate is up: without this, crawlers index the curtain
@@ -13,38 +13,61 @@
 <meta name="robots" content="noindex,nofollow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SUBDEX">
-<meta property="og:image" content="https://subdex.org/assets/og.jpg">
+<meta property="og:image" content="https://subdex.org/assets/og.jpg?v=3">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="SUBINDEX — same basket, supports INDEX">
-<meta name="twitter:image" content="https://subdex.org/assets/og.jpg">
-<meta property="og:title" content="$SUBINDEX — same basket, supports INDEX | SUBDEX">
-<meta property="og:description" content="$SUBINDEX pays holders a 17-stock basket every 15 minutes, 100% to holders, 0% to the creator — deliberately the most demanding treasury on the Index launchpad. Live payout clocks for every protocol, keeper liveness, and read-only dividend tracking for any wallet.">
+<meta property="og:image:alt" content="SUBDEX — RH Chain dividend yield, measured in public">
+<meta name="twitter:image" content="https://subdex.org/assets/og.jpg?v=3">
+<meta property="og:title" content="SUBDEX — yield, measured in public">
+<meta property="og:description" content="An independent terminal for every fee-treasury coin on Robinhood Chain: live payout clocks, fees swept in vs. cash that actually reached holders, keeper liveness, and read-only dividend tracking for any wallet. We run our own coins in public and report the failures too.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@TheSubIndexFi">
-<meta name="twitter:title" content="$SUBINDEX — same basket. Supports INDEX.">
-<meta name="twitter:description" content="17 reward assets. 15-minute epoch. 100% to holders. Live payout clocks for every fee-treasury coin on Robinhood Chain, plus read-only dividend tracking for any wallet. Facts and method, not verdicts.">
+<meta name="twitter:title" content="SUBDEX — yield, measured in public">
+<meta name="twitter:description" content="Live payout clocks for every fee-treasury coin on Robinhood Chain, on the cash basis. Read-only dividend tracking for any wallet. Our own coins reported in public, failures included. Facts and method, not verdicts.">
 <meta name="description" content="Independent terminal for distribution protocols on Robinhood Chain: live payout clocks, keeper liveness, and read-only dividend tracking for any wallet. Unaffiliated. Not investment advice.">
 <style>
 /* ── Theme sampled from theindex.finance's APP pages (not the marketing page).
    Exact values lifted from live computed styles:
-     paper #edece8 · ink #191918 · card #fff / rgba(255,255,255,.9)
-     hairline #eceae6 · neutral bars #c5c4bc · ACCENT BARS #a9c0de (cornflower)
+     SUPERSEDED 2026-08-08: that palette was sampled from theindex.finance and
+     belonged to the SubIndex era. SUBDEX takes its colours from its own character
+     art instead — see the :root blocks below.
      eyebrow labels: 11px / 600 / 1.32px tracking / #a3a39c, "/ 01 / LABEL"
    Blue is the data colour throughout; stock logos come from the same CDN the
    Index app uses. Layout stays full-bleed and dense per the no-space mandate. ── */
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 :root{
---paper:#edece8;--paper2:#e4e3dd;--card:#fff;--ink:#191918;--ink2:#41413c;
---mut:#63635c;--dim:#93938c;--hair:#eceae6;--hair2:#dcdad3;
---blu:#4a72a8;--blu1:#a9c0de;--blu2:#dce6f3;--blu3:#eef3fa;--bluD:#2f4f7a;
---neu:#c5c4bc;--up:#1a6b45;--dn:#a83a30;--gold:#8a6a1f;--vio:#6b4fa8;
+/* SUBDEX — LIGHT. Silver-white and electric blue, sampled off the SUBDEXLADON
+   art: the brushed-metal slab, the white plate in the middle of the stack. Cool
+   greys throughout — the old palette was warm paper (#edece8), which belonged to
+   a different project. */
+--paper:#F1F4FA;--paper2:#E6ECF5;--card:#FFFFFF;--ink:#0A1120;--ink2:#2A3850;
+--mut:#54657F;--dim:#8B9AAF;--hair:#E2E8F2;--hair2:#CAD5E5;
+--blu:#1E6BFF;--blu1:#9FC2FF;--blu2:#E6EFFF;--blu3:#F3F8FF;--bluD:#1246B5;
+--blu4:#5B95FF;--blu5:#0B2E7A;--ice:#D6E8FF;--grn2:#0B8B4E;--grnD:#075F35;
+--neu:#B8C4D6;--up:#0E9F5B;--dn:#D93B52;--gold:#B07C15;--vio:#5B4BD6;
+--silver:#C4D0E2;--glow:#1E6BFF;
 --soft:#fbfbfa;--sans:'Instrument Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
 --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
 html[data-theme=dark]{
---paper:#0e1114;--paper2:#191e24;--card:#151a1f;--soft:#12171b;--ink:#e9eaec;--ink2:#c2c7cd;
---mut:#98a0a8;--dim:#6d757d;--hair:#232930;--hair2:#2f363e;
---blu:#7aa7dd;--blu1:#5c85b8;--blu2:#1d2836;--blu3:#161d25;--bluD:#a9c8ea;
---neu:#454c54;--up:#35d190;--dn:#ff6f64;--gold:#dfb457;--vio:#a893da}
+/* SUBDEX — DARK, and this is the primary identity. Every value is taken off the
+   SUBDEXLADON art rather than invented:
+     #04070E  the void the character floats in
+     #0A1220  the dark slab faces
+     #2B7BFF  the eye glow and the orbit rings — the signature colour
+     #5AA7FF  the bright rim highlight
+     #C4D0E2  the brushed-silver plate
+     #22C55E  the green candles behind the stack
+   Blue carries data, silver carries structure, green means up. Nothing warm. */
+--paper:#04070E;--paper2:#0A1220;--card:#0A1220;--soft:#070C17;--ink:#EDF2F9;--ink2:#C4D2E4;
+--mut:#8496B0;--dim:#566782;--hair:#182540;--hair2:#243552;
+/* A RANGE of blues, not one. The art has at least four distinct steps — deep
+   shadow inside the slabs, the mid electric of the eyes, the bright rim, and the
+   pale ice of the far orbit dots — so the palette carries all four and the UI uses
+   them for different jobs instead of tinting everything the same #2B7BFF. */
+--blu:#2B7BFF;--blu1:#1B4FA8;--blu2:#0C1B33;--blu3:#081324;--bluD:#5AA7FF;
+--blu4:#8FCBFF;--blu5:#0F3272;--ice:#BFE0FF;
+--neu:#33425C;--up:#22C55E;--dn:#FF5470;--gold:#E8B44A;--vio:#8A7BFF;
+--grn2:#3DDC84;--grnD:#0E7A3C;
+--silver:#C4D0E2;--glow:#2B7BFF}
 /* Logos are mostly dark-on-transparent PNGs, so on a dark page they vanish
    unless they sit on something light. A full white plate glared badly (Josh
    flagged it), so instead: a soft near-white chip, slightly inset, with the mark
@@ -378,13 +401,78 @@ pointer-events:none;transition:all .2s ease;z-index:50}
 }
 @media(max-width:480px){.mega{grid-template-columns:1fr}}
 
+/* ══ SUBDEX GLOW ══════════════════════════════════════════════════════════════
+   The character reads as emitted light: rim-lit edges, an orbit ring, eyes that
+   cast. Flat borders would throw that away. These are the only decorative rules
+   on the page and they are deliberately restrained — a glow on the accent edge
+   and the active nav, nothing that costs legibility or paints over data. */
+html[data-theme=dark] .flag{box-shadow:0 0 0 1px rgba(43,123,255,.16), 0 0 34px -12px rgba(43,123,255,.45)}
+html[data-theme=dark] .flag{border-left-color:var(--blu)}
+html[data-theme=dark] #nav a.on{background:linear-gradient(90deg,rgba(43,123,255,.18),transparent);
+  box-shadow:inset 3px 0 0 var(--blu), 0 0 22px -14px var(--blu)}
+/* the gradient darkened the row, so the label has to be re-lit or the active tab
+   becomes the least readable thing in the sidebar — which is what it did */
+html[data-theme=dark] #nav a.on,html[data-theme=dark] #nav a.on *{color:var(--ink)}
+html[data-theme=dark] #nav a.on .n{color:var(--bluD)}
+html[data-theme=dark] .tok{box-shadow:0 0 40px -18px rgba(43,123,255,.5)}
+html[data-theme=dark] .kpi{border-left-color:var(--blu)}
+html[data-theme=dark] .ldot,html[data-theme=dark] .dot{box-shadow:0 0 10px var(--up)}
+/* the silver plate in the middle of the stack, as a divider motif */
+html[data-theme=dark] .mega{border-top:1px solid rgba(196,208,226,.14)}
+
+/* SUBDEXLADON, drawn in SVG rather than shipped as a raster: it is the sidebar
+   mark, the favicon fallback and the empty-state motif, so it has to stay crisp at
+   24px and at 240px. Isometric stack, brushed-silver middle plate, green candles on
+   the top face, two glowing eyes — the same construction as the character art. */
+.sdx{flex:0 0 auto;display:block;width:60px;height:60px;border-radius:50%;box-shadow:0 0 0 1px var(--hair2),0 0 22px rgba(43,123,255,.30)}
+.logo h1{letter-spacing:.02em}
+.logo h1 span{color:var(--blu)}
+/* experiment chips — this project is a series of runs, so label them like one */
+.xp{display:inline-flex;align-items:center;gap:5px;font:700 8.5px var(--sans);
+  letter-spacing:.16em;text-transform:uppercase;padding:2px 6px;border-radius:3px;
+  background:var(--blu2);color:var(--bluD);box-shadow:inset 0 0 0 1px var(--blu1)}
+.xp.live{background:rgba(34,197,94,.12);color:var(--up);box-shadow:inset 0 0 0 1px rgba(34,197,94,.35)}
+.xp.pend{background:rgba(196,208,226,.10);color:var(--mut);box-shadow:inset 0 0 0 1px var(--hair2)}
+/* The ecosystem strip carries NINE cards. The stock .mega grid fits eight at this
+   width, so the ninth wrapped alone onto a second row and left most of it empty —
+   a void, which the layout mandate forbids. auto-fit with a 118px floor packs as
+   many as the width allows and every row stays full at any viewport. */
+#ecoStrip{grid-template-columns:repeat(auto-fit,minmax(118px,1fr))}
+#ecoStrip .kpi{padding:8px 11px}
+#ecoStrip .kl{font-size:8px;letter-spacing:.16em}
+#ecoStrip .kv{font-size:16px}
+#ecoStrip .kd{font-size:9.5px;line-height:1.35}
+
+/* WORDMARK: SUB silver-white, DE electric blue, X candle green — the three colours
+   of the character, in the order the eye reads them. */
+.logo h1 .wb{color:var(--blu)}
+.logo h1 .wg{color:var(--up);text-shadow:0 0 14px rgba(34,197,94,.55)}
+.logo h1{font-size:21px;letter-spacing:.01em}
+.sdx{filter:drop-shadow(0 0 10px rgba(43,123,255,.35))}
+
+/* GREEN, used for meaning rather than decoration: liveness, verified, and up. */
+.ldot,.dot{background:var(--up)!important}
+html[data-theme=dark] .lg{box-shadow:inset 0 0 0 1px rgba(196,208,226,.10)}
+.ft{background:linear-gradient(90deg,var(--blu),var(--blu4));color:#04070E!important}
+/* KPI cards cycle the blue steps so a row of five is not one flat colour */
+.mega .kpi:nth-child(5n+1){border-left-color:var(--blu)}
+.mega .kpi:nth-child(5n+2){border-left-color:var(--bluD)}
+.mega .kpi:nth-child(5n+3){border-left-color:var(--up)}
+.mega .kpi:nth-child(5n+4){border-left-color:var(--blu4)}
+.mega .kpi:nth-child(5n+5){border-left-color:var(--blu1)}
+/* section eyebrows alternate blue/green so long pages have rhythm */
+.eyb:nth-of-type(even){color:var(--up)}
+/* positive figures get the brighter green; the muted one was doing nothing */
+.up{color:var(--up)}
+html[data-theme=dark] b.up,html[data-theme=dark] .kv.up{color:var(--grn2)}
+/* the LIVE pill in the top strip should read as live */
+#lstat{color:var(--up)}
 </style></head><body>
 <div class="app">
 <aside>
  <div class="logo"><div style="display:flex;align-items:center;gap:8px">
-  <img src="assets/logo-64.png" width="24" height="24" alt="SUBDEX"
-    style="flex:0 0 auto;border-radius:6px;display:block">
-  <h1>SUBDE<span>X</span></h1></div><div class="sub">ONCHAIN YIELD TERMINAL · RH CHAIN</div></div>
+<img class="sdx" src="assets/logo-256.png?v=3" width="60" height="60" alt="SUBDEXLADON" title="SUBDEXLADON">
+  <h1>SUB<span class="wb">DE</span><span class="wg">X</span></h1></div><div class="sub">LEARNING IN PUBLIC · RH CHAIN</div></div>
  <nav id="nav">
   <a data-v="over" class="on"><span class="ic">◧</span><span>OVERVIEW</span><span class="k">1</span></a>
   <a data-v="prot"><span class="ic">⛁</span><span>PROTOCOLS</span><span class="k">2</span></a>
@@ -394,6 +482,7 @@ pointer-events:none;transition:all .2s ease;z-index:50}
   <a data-v="idx"><span class="ic">◈</span><span>$INDEX</span><span class="k">6</span></a>
   <a data-v="rail"><span class="ic">▦</span><span>THE RAILS</span><span class="k">7</span></a>
   <a data-v="meth"><span class="ic">⊞</span><span>METHOD</span><span class="k">8</span></a>
+  <a data-v="ours"><span class="ic">◤</span><span>OUR COINS</span><span class="k">9</span></a>
  </nav>
  <div class="sfoot">INDEPENDENT · UNAFFILIATED<br>Not investment advice.<br><span id="sblock" class="dx">—</span></div>
 </aside>
@@ -410,10 +499,44 @@ pointer-events:none;transition:all .2s ease;z-index:50}
  <div class="content" id="content">
 
   <div class="view on" id="v-over">
+   <div class="panel" style="flex:0 0 auto"><div class="ph" style="--pc:var(--blu)">
+     <h2>The Indices launchpad, measured</h2>
+     <span class="d">every bound coin on one line · fee figures on the cash basis (swept in / reached holders), the mark shown separately because it is not a cash flow</span></div>
+    <div class="mega" id="ecoStrip" style="border:0;margin:0"></div></div>
+   <div class="mega" id="heroOver"></div>
+   <div class="cols" style="grid-template-columns:1.55fr 1fr">
+    <div class="panel"><div class="ph" style="--pc:var(--blu)"><h2>Distribution activity</h2><span class="d">value pushed to holders per interval (columns) with the running total (line, right axis) · all times Eastern · marked at current prices</span></div>
+     <div class="pb" id="areaWrap"><div class="sk" style="width:100%;height:176px"></div></div>
+     <div class="ph" style="border-top:1px solid var(--hair)"><h2 style="--pc:var(--blu)">Distribution feed</h2><span class="d">payouts landing in holder wallets, newest first</span></div>
+     <div class="feed" id="feedDist"><div class="pb"><div class="sk" style="width:86%"></div><div class="sk" style="width:71%"></div><div class="sk" style="width:78%"></div><div class="sk" style="width:64%"></div></div></div></div>
+    <div>
+     <div class="panel"><div class="ph" style="--pc:var(--up)"><h2>Most distributions</h2><span class="d">payout rounds finalized on chain</span></div>
+      <div class="pb" id="barRnd"><div class="sk" style="width:88%"></div></div></div>
+     <div class="panel"><div class="ph" style="--pc:#c07a3a"><h2>Most traded, 24h</h2><span class="d">migrated books only</span></div>
+      <div class="pb" id="barVol"><div class="sk" style="width:82%"></div></div></div>
+     <div class="panel"><div class="ph" style="--pc:#7a68c0"><h2>What this ecosystem pays in</h2><span class="d">reward assets by how many protocols route fees into them</span></div>
+      <div class="pb" id="rewMix2"><div class="sk" style="width:76%"></div></div></div>
+    </div>
+   </div>
+   <div class="cols">
+    <div class="panel"><div class="ph" style="--pc:var(--gold)"><h2>Paying soonest</h2><span class="d">next payout clock across every live treasury</span></div>
+     <div class="pb" id="soon"><div class="spin">…</div></div></div>
+    <div class="panel"><div class="ph" style="--pc:#3a8f85"><h2>Pairing vs throughput</h2><span class="d">does the asset a coin trades against change how often it actually pays?</span></div>
+     <div class="pb" id="pairPerf"><div class="spin">…</div></div></div>
+   </div>
+   <div class="panel grow"><div class="ph" style="--pc:var(--blu)"><h2>Full ledger</h2>
+    <span class="d">every live protocol, ranked by distributions executed · click a tag to filter · deeper sorting on the PROTOCOLS tab</span></div>
+    <div class="tagbar" id="tagBar"></div>
+    <div class="tw" id="ledger"><div class="spin">…</div></div></div>
+  </div>
+
+    <!-- OUR COINS — everything specific to the instruments WE operate. Split out of
+       OVERVIEW so that tab can be about the ecosystem rather than about us. -->
+  <div class="view" id="v-ours">
    <div class="tok">
     <div class="tkh">
      <div class="tkid">
-      <img src="assets/logo-256.png" width="34" height="34" alt="$SUBINDEX"
+      <img src="assets/logo-256.png?v=3" width="34" height="34" alt="SUBDEX"
         style="flex:0 0 auto;border-radius:8px;display:block">
       <div>
        <h1>$SUBINDEX <span class="tkb">SAME BASKET · SUPPORTS INDEX</span>
@@ -441,7 +564,8 @@ pointer-events:none;transition:all .2s ease;z-index:50}
     </div>
    </div>
    <div class="flag">
-    <div class="fh"><span class="ft">FINDING</span><span class="fd" id="flagDate">2026-08-05</span></div>
+    <div class="fh"><span class="ft">LAB LOG</span><span class="fd" id="flagDate">2026-08-05</span>
+     <span class="fd" style="color:var(--blu)">SUBDEX IS AN EXPERIMENT RUN IN PUBLIC — WE PUBLISH WHAT BREAKS, INCLUDING OURS</span></div>
     <h2>Basket breadth, not fee volume, is what stalls these payouts — and we are testing where the ceiling is.</h2>
     <p>Distributions on this launchpad are not autonomous. A single keeper wallet executes every round
     for every treasury, and a round is not one transfer — it is a Merkle commit followed by
@@ -536,34 +660,9 @@ pointer-events:none;transition:all .2s ease;z-index:50}
       figures are not hand-entered here and never will be.</div>
     </div>
    </div>
-   <div class="mega" id="heroOver"></div>
-   <div class="cols" style="grid-template-columns:1.55fr 1fr">
-    <div class="panel"><div class="ph" style="--pc:var(--blu)"><h2>Distribution activity</h2><span class="d">value pushed to holders per interval (columns) with the running total (line, right axis) · all times Eastern · marked at current prices</span></div>
-     <div class="pb" id="areaWrap"><div class="sk" style="width:100%;height:176px"></div></div>
-     <div class="ph" style="border-top:1px solid var(--hair)"><h2 style="--pc:var(--blu)">Distribution feed</h2><span class="d">payouts landing in holder wallets, newest first</span></div>
-     <div class="feed" id="feedDist"><div class="pb"><div class="sk" style="width:86%"></div><div class="sk" style="width:71%"></div><div class="sk" style="width:78%"></div><div class="sk" style="width:64%"></div></div></div></div>
-    <div>
-     <div class="panel"><div class="ph" style="--pc:var(--up)"><h2>Most distributions</h2><span class="d">payout rounds finalized on chain</span></div>
-      <div class="pb" id="barRnd"><div class="sk" style="width:88%"></div></div></div>
-     <div class="panel"><div class="ph" style="--pc:#c07a3a"><h2>Most traded, 24h</h2><span class="d">migrated books only</span></div>
-      <div class="pb" id="barVol"><div class="sk" style="width:82%"></div></div></div>
-     <div class="panel"><div class="ph" style="--pc:#7a68c0"><h2>What this ecosystem pays in</h2><span class="d">reward assets by how many protocols route fees into them</span></div>
-      <div class="pb" id="rewMix2"><div class="sk" style="width:76%"></div></div></div>
-    </div>
-   </div>
-   <div class="cols">
-    <div class="panel"><div class="ph" style="--pc:var(--gold)"><h2>Paying soonest</h2><span class="d">next payout clock across every live treasury</span></div>
-     <div class="pb" id="soon"><div class="spin">…</div></div></div>
-    <div class="panel"><div class="ph" style="--pc:#3a8f85"><h2>Pairing vs throughput</h2><span class="d">does the asset a coin trades against change how often it actually pays?</span></div>
-     <div class="pb" id="pairPerf"><div class="spin">…</div></div></div>
-   </div>
-   <div class="panel grow"><div class="ph" style="--pc:var(--blu)"><h2>Full ledger</h2>
-    <span class="d">every live protocol, ranked by distributions executed · click a tag to filter · deeper sorting on the PROTOCOLS tab</span></div>
-    <div class="tagbar" id="tagBar"></div>
-    <div class="tw" id="ledger"><div class="spin">…</div></div></div>
   </div>
 
-  <div class="view" id="v-prot">
+<div class="view" id="v-prot">
    <div class="panel">
     <div class="hb">
      <input id="q" class="in" placeholder="filter by ticker, reward asset or address…" style="flex:1;max-width:340px" oninput="SI.filter(this.value)">
@@ -767,7 +866,9 @@ pointer-events:none;transition:all .2s ease;z-index:50}
 <div id="toast"></div>
 </div>
 <script>/* set before paint: a flash of the wrong theme is worse than either theme */
+/* SUBDEX defaults to DARK. The identity is the dark art; the light theme is the
+   alternate, not the baseline. A returning visitor's explicit choice still wins. */
 (function(){try{var t=localStorage.getItem('si_theme');
-if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+if(!t)t='dark';
 document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
-<script src="app.js?v=15"></script></body></html>
+<script src="app.js?v=22"></script></body></html>
