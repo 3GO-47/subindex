@@ -1,6 +1,6 @@
 {
- "generated": "2026-08-11T02:44:32Z",
- "source_generated": "2026-08-11T02:30:09Z",
+ "generated": "2026-08-11T17:32:05Z",
+ "source_generated": "2026-08-11T17:19:42Z",
  "treasuries": 100,
  "bound": 55,
  "coins": [
@@ -54,26 +54,26 @@
    "epoch_sec": 3600,
    "curve": "0xe835fe26b0eca93ccff76d29ae4551d391b8236d",
    "creator": "0x0fa3082a4f1fc07628a61ca72de92d393b6c3294",
-   "rounds_n": 2,
-   "last_round": 1786323782,
-   "next_payout": 1786327382,
+   "rounds_n": 4,
+   "last_round": 1786443575,
+   "next_payout": 1786447175,
    "deployed_at": "1786169774",
    "bound_at": "1786170530",
-   "harvested": "566696185622779411",
-   "protocol_fees": "62966242846975482",
-   "creator_accrued": "113339237124555888",
+   "harvested": "574050775422328380",
+   "protocol_fees": "63783419491369811",
+   "creator_accrued": "114810155084465682",
    "dist": [
     {
      "asset": "0x322f0929c4625ed5bad873c95208d54e1c003b2d",
-     "n": 1,
-     "paid": 6.34012301233e-07,
-     "spent": 1.562203911204e-06
+     "n": 2,
+     "paid": 0.000821342442364622,
+     "spent": 0.001996122566932252
     },
     {
      "asset": "0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea",
-     "n": 1,
-     "paid": 3e-18,
-     "spent": 0.0
+     "n": 2,
+     "paid": 0.01796510310239026,
+     "spent": 0.01796510310239026
     }
    ]
   },
@@ -174,22 +174,15 @@
    "epoch_sec": 900,
    "curve": "0x9240b0440c54a98bbf856a541b4f5e525f24650a",
    "creator": "0x5c09b2326c61279dcca23b99439b849da9b69530",
-   "rounds_n": 1,
-   "last_round": 1786335068,
-   "next_payout": 1786335968,
+   "rounds_n": 0,
+   "last_round": null,
+   "next_payout": 1786259555,
    "deployed_at": "1786258613",
    "bound_at": "1786258655",
    "harvested": "5264755906357679",
    "protocol_fees": "584972878484185",
    "creator_accrued": "0",
-   "dist": [
-    {
-     "asset": "0xc0d6457c16cc70d6790dd43521c899c87ce02f35",
-     "n": 1,
-     "paid": 0.002946803765268011,
-     "spent": 0.002946803765268011
-    }
-   ]
+   "dist": []
   },
   {
    "treasury": "0x0adf62fd73cfd3788812616bdbc1aed667659212",
@@ -201,20 +194,20 @@
    "epoch_sec": 900,
    "curve": "0xfcab5ad3076e64e2991173544042cb145c5ccc7d",
    "creator": "0x26ffd023bd3ec7f75753b8ce6bfb22dcb82b3f11",
-   "rounds_n": 3,
-   "last_round": 1786397700,
-   "next_payout": 1786398600,
+   "rounds_n": 5,
+   "last_round": 1786452100,
+   "next_payout": 1786453000,
    "deployed_at": "1786391183",
    "bound_at": "1786393530",
-   "harvested": "302467010704848916",
-   "protocol_fees": "33607445633872101",
+   "harvested": "343009164288662827",
+   "protocol_fees": "38112129365406979",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0xc0d6457c16cc70d6790dd43521c899c87ce02f35",
-     "n": 3,
-     "paid": 0.9538547246582028,
-     "spent": 0.30246701070484894
+     "n": 5,
+     "paid": 1.0816833432940902,
+     "spent": 0.3430091642886628
     }
    ]
   },
@@ -228,44 +221,44 @@
    "epoch_sec": 900,
    "curve": "0x3b7dadd3991dcc1f5948daf7401e5e659e741a96",
    "creator": "0xce6f76c6305dcfc0e0d95bb8bd3c9a7579be42bc",
-   "rounds_n": 71,
-   "last_round": 1786413187,
-   "next_payout": 1786414087,
+   "rounds_n": 106,
+   "last_round": 1786467806,
+   "next_payout": 1786468706,
    "deployed_at": "1786288108",
    "bound_at": "1786288431",
-   "harvested": "316183057865767791",
-   "protocol_fees": "35131450873974194",
+   "harvested": "340594983758631144",
+   "protocol_fees": "37843887084292342",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0xb90a19ff0af67f7779aff50a882a9cff42446400",
-     "n": 14,
-     "paid": 0.07834501349735773,
-     "spent": 0.052676097440436935
+     "n": 21,
+     "paid": 0.08442253990919243,
+     "spent": 0.056743124294187985
     },
     {
      "asset": "0xc72b96e0e48ecd4dc75e1e45396e26300bc39681",
-     "n": 14,
-     "paid": 1.0016449307716022,
-     "spent": 0.05267609744043691
+     "n": 21,
+     "paid": 1.0803820572510985,
+     "spent": 0.056743124294187944
     },
     {
      "asset": "0xff080c8ce2e5feadaca0da81314ae59d232d4afd",
-     "n": 14,
-     "paid": 0.11209624800122885,
-     "spent": 0.05267609744043691
+     "n": 21,
+     "paid": 0.12090627301264745,
+     "spent": 0.056743124294187944
     },
     {
      "asset": "0x86923f96303d656e4aa86d9d42d1e57ad2023fdc",
-     "n": 14,
-     "paid": 0.20748740244021993,
-     "spent": 0.05267609744043691
+     "n": 21,
+     "paid": 0.22370087057955043,
+     "spent": 0.056743124294187944
     },
     {
      "asset": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
-     "n": 14,
-     "paid": 0.4520894593723588,
-     "spent": 0.05280257066358321
+     "n": 21,
+     "paid": 0.486941610013956,
+     "spent": 0.05687936228769139
     },
     {
      "asset": "0x0f17206447090e464c277571124dd2688e48aea9",
@@ -345,20 +338,20 @@
    "epoch_sec": 3600,
    "curve": "0x592ad9f5444fb927ebbb13620ef8bc9993ad90b2",
    "creator": "0xffec0df753b6171e8cd6cf3d13d872c012242f00",
-   "rounds_n": 13,
-   "last_round": 1786397485,
-   "next_payout": 1786401085,
+   "rounds_n": 11,
+   "last_round": 1786454599,
+   "next_payout": 1786458199,
    "deployed_at": "1785900416",
    "bound_at": "1785901407",
-   "harvested": "3779756446838704118",
-   "protocol_fees": "419972938537633758",
+   "harvested": "3791474750478475337",
+   "protocol_fees": "421274972275386114",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
-     "n": 13,
-     "paid": 0.07145269904838647,
-     "spent": 0.07145269904838647
+     "n": 11,
+     "paid": 0.04025555346747988,
+     "spent": 0.040255553467479874
     }
    ]
   },
@@ -372,15 +365,22 @@
    "epoch_sec": 900,
    "curve": "0xeb5fb6e9e8747265f1148b7b5dcf9dfd65edbf27",
    "creator": "0xf15664a2743ab7c7b53bc17c7dccfca6700bea21",
-   "rounds_n": 0,
-   "last_round": null,
-   "next_payout": 1786165260,
+   "rounds_n": 1,
+   "last_round": 1786438585,
+   "next_payout": 1786439485,
    "deployed_at": "1786163652",
    "bound_at": "1786164360",
-   "harvested": "63106417066712120",
-   "protocol_fees": "7011824118523567",
+   "harvested": "65323274215143277",
+   "protocol_fees": "7258141579460362",
    "creator_accrued": "0",
-   "dist": []
+   "dist": [
+    {
+     "asset": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
+     "n": 1,
+     "paid": 0.04770417632123247,
+     "spent": 0.01966058803431757
+    }
+   ]
   },
   {
    "treasury": "0x15af431ff9d9668d9898c7cedff0dba3e3688d90",
@@ -479,20 +479,20 @@
    "epoch_sec": 900,
    "curve": "0xc382acbe18b080e9813c34260485d21000debafa",
    "creator": "0xed1f99406518c45a8dae93d31274735310cc228b",
-   "rounds_n": 38,
-   "last_round": 1786415140,
-   "next_payout": 1786416040,
+   "rounds_n": 33,
+   "last_round": 1786466752,
+   "next_payout": 1786467652,
    "deployed_at": "1786113365",
    "bound_at": "1786113923",
-   "harvested": "14492875027431791755",
-   "protocol_fees": "1610319447492421162",
+   "harvested": "14866611152696850419",
+   "protocol_fees": "1651845683632983231",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0xe0444ef8bf4ed74f74fd73686e2ddf4c1c5591e8",
-     "n": 38,
-     "paid": 37.33685010701922,
-     "spent": 1.4796774641248864
+     "n": 33,
+     "paid": 32.076281211235845,
+     "spent": 1.2953229767124355
     }
    ]
   },
@@ -526,20 +526,20 @@
    "epoch_sec": 900,
    "curve": "0x34e794dc24db178210529980234c290ae6331a90",
    "creator": "0xbda6f3f438748270e4c7fab91264df649fceae2a",
-   "rounds_n": 16,
-   "last_round": 1786405114,
-   "next_payout": 1786406014,
+   "rounds_n": 10,
+   "last_round": 1786461346,
+   "next_payout": 1786462246,
    "deployed_at": "1786195059",
    "bound_at": "1786199896",
-   "harvested": "2390224232006098968",
-   "protocol_fees": "265580470222899850",
+   "harvested": "2430976128634329854",
+   "protocol_fees": "270108458737147726",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0x05b37fb53a299a1b874a619e1c4c404d52c36f4c",
-     "n": 16,
-     "paid": 4.619452078541343,
-     "spent": 0.38939432609010644
+     "n": 10,
+     "paid": 2.7860838221456348,
+     "spent": 0.23514653004482242
     }
    ]
   },
@@ -684,6 +684,26 @@
    "dist": []
   },
   {
+   "treasury": "0x30cfd84a34d68e92109389d5f0e4f851df8e7a97",
+   "coin": null,
+   "sym": null,
+   "name": null,
+   "basket": "[[\"0x86923f96303D656E4aa86D9d42D1e57ad2023fdC\",10000]]",
+   "distribute_bps": 10000,
+   "epoch_sec": 900,
+   "curve": null,
+   "creator": "0xcb7a25229de5faba331d653dbc11bf606f86668e",
+   "rounds_n": 0,
+   "last_round": null,
+   "next_payout": null,
+   "deployed_at": "1786460269",
+   "bound_at": null,
+   "harvested": "0",
+   "protocol_fees": "0",
+   "creator_accrued": "0",
+   "dist": []
+  },
+  {
    "treasury": "0x35eb386500add6a777dd8217e0ae5efceb3e67b3",
    "coin": "0xfb4439b5240aa09e8bb5bd4ff3837b3125e0c58c",
    "sym": "AGI",
@@ -713,20 +733,20 @@
    "epoch_sec": 21600,
    "curve": "0xa02a9c1a830ba327663d6a0bb33ea5b73c0cd6b2",
    "creator": "0x51994b01290087fc8deda00756af9192712f51c3",
-   "rounds_n": 4,
-   "last_round": 1786406525,
-   "next_payout": 1786428125,
+   "rounds_n": 3,
+   "last_round": 1786428658,
+   "next_payout": 1786450258,
    "deployed_at": "1785904773",
    "bound_at": "1785905077",
-   "harvested": "1473965228371022841",
-   "protocol_fees": "163773914263446968",
-   "creator_accrued": "456929220795017094",
+   "harvested": "1484012097816147232",
+   "protocol_fees": "164890233090683011",
+   "creator_accrued": "460043750323005656",
    "dist": [
     {
      "asset": "0x2e0847e8910a9732eb3fb1bb4b70a580adad4fe3",
-     "n": 4,
-     "paid": 0.03237378946166674,
-     "spent": 0.03237378946166673
+     "n": 3,
+     "paid": 0.023613908914828563,
+     "spent": 0.02361390891482855
     }
    ]
   },
@@ -760,20 +780,20 @@
    "epoch_sec": 900,
    "curve": "0x1035320610a21f934a032e9901c5ca3482ac8c8a",
    "creator": "0xf549feabe7a5bb285ad3eb8652151c1f2838c072",
-   "rounds_n": 10,
-   "last_round": 1786409455,
-   "next_payout": 1786410355,
+   "rounds_n": 11,
+   "last_round": 1786464968,
+   "next_payout": 1786465868,
    "deployed_at": "1786198986",
    "bound_at": "1786200488",
-   "harvested": "2439537099550425086",
-   "protocol_fees": "271059677727824973",
+   "harvested": "2523683752911002302",
+   "protocol_fees": "280409305879000217",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0x58ffe4a942d3885baa22d7520691f611ef09e7aa",
-     "n": 10,
-     "paid": 1.3924944813944715,
-     "spent": 0.31192386960752383
+     "n": 11,
+     "paid": 1.478446667283299,
+     "spent": 0.3327568195528414
     }
    ]
   },
@@ -787,22 +807,15 @@
    "epoch_sec": 900,
    "curve": "0xf65e8ed15f11bf65c04c7f35acd35f36ceb5e53a",
    "creator": "0x5c09b2326c61279dcca23b99439b849da9b69530",
-   "rounds_n": 5,
-   "last_round": 1786333471,
-   "next_payout": 1786334371,
+   "rounds_n": 0,
+   "last_round": null,
+   "next_payout": 1786260798,
    "deployed_at": "1786259798",
    "bound_at": "1786259898",
    "harvested": "24771285943733738",
    "protocol_fees": "2752365104859301",
    "creator_accrued": "0",
-   "dist": [
-    {
-     "asset": "0xe93237c50d904957cf27e7b1133b510c669c2e74",
-     "n": 5,
-     "paid": 0.014999326771102226,
-     "spent": 0.014999326771102226
-    }
-   ]
+   "dist": []
   },
   {
    "treasury": "0x377a2f80722b705e7145c0d2253bb44cefbb4d64",
@@ -1501,20 +1514,20 @@
    "epoch_sec": 900,
    "curve": "0x22d0964388d341f37fc810c17c50425ae65b7be4",
    "creator": "0x15849b9caf8d02c536108b8eef94ef3290d61986",
-   "rounds_n": 21,
-   "last_round": 1786408879,
-   "next_payout": 1786409779,
+   "rounds_n": 20,
+   "last_round": 1786467106,
+   "next_payout": 1786468006,
    "deployed_at": "1785884530",
    "bound_at": "1785884658",
-   "harvested": "25424707939025821524",
-   "protocol_fees": "2824967548780646665",
+   "harvested": "25601845344653744620",
+   "protocol_fees": "2844649482739304780",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
-     "n": 21,
-     "paid": 0.2646271978647538,
-     "spent": 0.26462719786475375
+     "n": 20,
+     "paid": 0.26555096346306634,
+     "spent": 0.2655509634630663
     }
    ]
   },
@@ -1660,8 +1673,8 @@
    "next_payout": 1786220928,
    "deployed_at": "1786219876",
    "bound_at": "1786220028",
-   "harvested": "145072783396704268",
-   "protocol_fees": "16119198155189349",
+   "harvested": "145610441909440380",
+   "protocol_fees": "16178937989937805",
    "creator_accrued": "0",
    "dist": []
   },
@@ -1959,6 +1972,26 @@
    "dist": []
   },
   {
+   "treasury": "0x7eaf6cc2aaa1e0a84771577823561951453fbc76",
+   "coin": null,
+   "sym": null,
+   "name": null,
+   "basket": "[[\"0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC\",2500],[\"0xec262a75e413fAfD0dF80480274532C79D42da09\",2500],[\"0x12f190a9F9d7D37a250758b26824B97CE941bF54\",2500],[\"0xE0444EF8BF4eD74f74FD73686e2ddF4C1c5591E8\",2500]]",
+   "distribute_bps": 5000,
+   "epoch_sec": 3600,
+   "curve": null,
+   "creator": "0x31e17a0dccab02d19acb3913de38f7edd90e6aea",
+   "rounds_n": 0,
+   "last_round": null,
+   "next_payout": null,
+   "deployed_at": "1786457029",
+   "bound_at": null,
+   "harvested": "0",
+   "protocol_fees": "0",
+   "creator_accrued": "0",
+   "dist": []
+  },
+  {
    "treasury": "0x7f7500c63425b16226aaee080abfbd26be820701",
    "coin": null,
    "sym": null,
@@ -2048,20 +2081,20 @@
    "epoch_sec": 3600,
    "curve": "0xb77e5c38bb651480a4b677055372ee694160a6e3",
    "creator": "0xff5c8ecdc41ba1f9f515408ed84ac06fcad18c33",
-   "rounds_n": 3,
-   "last_round": 1786355412,
-   "next_payout": 1786359012,
+   "rounds_n": 2,
+   "last_round": 1786419395,
+   "next_payout": 1786422995,
    "deployed_at": "1785909492",
    "bound_at": "1785909898",
-   "harvested": "50236137378819007445",
-   "protocol_fees": "5581793042091000804",
+   "harvested": "50313741914168699325",
+   "protocol_fees": "5590415768240966568",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0x1b0e319c6a659f002271b69db8a7df2f911c153e",
-     "n": 3,
-     "paid": 0.9429647759684556,
-     "spent": 0.9429647759684556
+     "n": 2,
+     "paid": 0.150379893392786,
+     "spent": 0.15037989339278598
     }
    ]
   },
@@ -2131,60 +2164,20 @@
    "protocol_fees": "0",
    "creator_accrued": "0",
    "dist": []
-  },
-  {
-   "treasury": "0x87c61239b455f2f88d40da9d72e887bca1d05595",
-   "coin": null,
-   "sym": null,
-   "name": null,
-   "basket": "[[\"0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A\",10000]]",
-   "distribute_bps": 10000,
-   "epoch_sec": 900,
-   "curve": null,
-   "creator": "0xed1f99406518c45a8dae93d31274735310cc228b",
-   "rounds_n": 0,
-   "last_round": null,
-   "next_payout": null,
-   "deployed_at": "1785941703",
-   "bound_at": null,
-   "harvested": "0",
-   "protocol_fees": "0",
-   "creator_accrued": "0",
-   "dist": []
-  },
-  {
-   "treasury": "0x8acb46ab205f45b0fc17a468964321296fbe2842",
-   "coin": null,
-   "sym": null,
-   "name": null,
-   "basket": "[[\"0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC\",1600],[\"0xaF3D76f1834A1d425780943C99Ea8A608f8a93f9\",1500],[\"0xe93237C50D904957Cf27E7B1133b510C669c2e74\",1500],[\"0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3\",1400],[\"0x12f190a9F9d7D37a250758b26824B97CE941bF54\",1400],[\"0xc0D6457C16Cc70d6790Dd43521C899C87ce02f35\",1300],[\"0x322F0929c4625eD5bAd873c95208D54E1c003b2d\",1300]]",
-   "distribute_bps": 9900,
-   "epoch_sec": 21600,
-   "curve": null,
-   "creator": "0x5ce6e47a796f69a72e91156c24d03baa16544d3e",
-   "rounds_n": 0,
-   "last_round": null,
-   "next_payout": null,
-   "deployed_at": "1785910140",
-   "bound_at": null,
-   "harvested": "0",
-   "protocol_fees": "0",
-   "creator_accrued": "0",
-   "dist": []
   }
  ],
  "keeper": {
   "address": "0x179a1513adc677042654d904a0fb051577f67c4a",
-  "gas_eth": 0.00637,
-  "last_tx": "2026-08-11T02:29:16.000000Z",
-  "claims_in_sample": 1,
+  "gas_eth": 0.20393,
+  "last_tx": "2026-08-11T17:19:27.000000Z",
+  "claims_in_sample": 4,
   "methods": {
-   "0x9aa3895d": 31,
-   "0x4733aa85": 15,
-   "0xea485a48": 1,
-   "claimProtocol": 1,
-   "?": 1,
-   "harvest": 1
+   "0x4733aa85": 28,
+   "0xea485a48": 10,
+   "claimProtocol": 4,
+   "harvest": 4,
+   "0x9aa3895d": 2,
+   "0x6330d827": 2
   }
  },
  "notice": "Public chain facts only. SubIndex is independent and unaffiliated with The Index, Robinhood, or any listed project. Not investment advice."
