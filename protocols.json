@@ -1,6 +1,6 @@
 {
- "generated": "2026-08-13T11:47:06Z",
- "source_generated": "2026-08-13T11:38:03Z",
+ "generated": "2026-08-13T15:58:36Z",
+ "source_generated": "2026-08-13T15:50:15Z",
  "treasuries": 100,
  "bound": 55,
  "coins": [
@@ -174,22 +174,15 @@
    "epoch_sec": 900,
    "curve": "0xfcab5ad3076e64e2991173544042cb145c5ccc7d",
    "creator": "0x26ffd023bd3ec7f75753b8ce6bfb22dcb82b3f11",
-   "rounds_n": 1,
-   "last_round": 1786452100,
-   "next_payout": 1786453000,
+   "rounds_n": 0,
+   "last_round": null,
+   "next_payout": 1786394430,
    "deployed_at": "1786391183",
    "bound_at": "1786393530",
    "harvested": "343009164288662827",
    "protocol_fees": "38112129365406979",
    "creator_accrued": "0",
-   "dist": [
-    {
-     "asset": "0xc0d6457c16cc70d6790dd43521c899c87ce02f35",
-     "n": 1,
-     "paid": 0.061258144055380305,
-     "spent": 0.01937421764274243
-    }
-   ]
+   "dist": []
   },
   {
    "treasury": "0x0b40ecd9ae5bba1a01333a543bb5e4cb97f4d188",
@@ -318,7 +311,7 @@
    "epoch_sec": 3600,
    "curve": "0x592ad9f5444fb927ebbb13620ef8bc9993ad90b2",
    "creator": "0xffec0df753b6171e8cd6cf3d13d872c012242f00",
-   "rounds_n": 6,
+   "rounds_n": 5,
    "last_round": 1786615884,
    "next_payout": 1786619484,
    "deployed_at": "1785900416",
@@ -329,9 +322,9 @@
    "dist": [
     {
      "asset": "0x117cc2133c37b721f49de2a7a74833232b3b4c0c",
-     "n": 6,
-     "paid": 0.009313827455823643,
-     "spent": 0.009313827455823636
+     "n": 5,
+     "paid": 0.007745415401630791,
+     "spent": 0.00774541540163079
     }
    ]
   },
@@ -466,19 +459,19 @@
    "curve": "0xc382acbe18b080e9813c34260485d21000debafa",
    "creator": "0xed1f99406518c45a8dae93d31274735310cc228b",
    "rounds_n": 16,
-   "last_round": 1786584908,
-   "next_payout": 1786585808,
+   "last_round": 1786635397,
+   "next_payout": 1786636297,
    "deployed_at": "1786113365",
    "bound_at": "1786113923",
-   "harvested": "15163552508866161933",
-   "protocol_fees": "1684839167651795615",
+   "harvested": "15234131821706393162",
+   "protocol_fees": "1692681313522932417",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0xe0444ef8bf4ed74f74fd73686e2ddf4c1c5591e8",
      "n": 16,
-     "paid": 13.347316275344921,
-     "spent": 0.5370545126754821
+     "paid": 13.175686423603713,
+     "spent": 0.5299164399837454
     }
    ]
   },
@@ -512,20 +505,20 @@
    "epoch_sec": 900,
    "curve": "0x34e794dc24db178210529980234c290ae6331a90",
    "creator": "0xbda6f3f438748270e4c7fab91264df649fceae2a",
-   "rounds_n": 3,
-   "last_round": 1786502328,
-   "next_payout": 1786503228,
+   "rounds_n": 4,
+   "last_round": 1786635178,
+   "next_payout": 1786636078,
    "deployed_at": "1786195059",
    "bound_at": "1786199896",
-   "harvested": "2460556632684518508",
-   "protocol_fees": "273395181409390909",
+   "harvested": "2493212450701348533",
+   "protocol_fees": "277023605633483134",
    "creator_accrued": "0",
    "dist": [
     {
      "asset": "0x05b37fb53a299a1b874a619e1c4c404d52c36f4c",
-     "n": 3,
-     "paid": 0.8361114753862836,
-     "spent": 0.07033240067841955
+     "n": 4,
+     "paid": 1.2322232812327076,
+     "spent": 0.10298821869524956
     }
    ]
   },
@@ -584,6 +577,26 @@
    "next_payout": 1786234167,
    "deployed_at": "1786147490",
    "bound_at": "1786147767",
+   "harvested": "0",
+   "protocol_fees": "0",
+   "creator_accrued": "0",
+   "dist": []
+  },
+  {
+   "treasury": "0x24456961ac864f4a3d0258dcffaeb6d05cf8ee52",
+   "coin": null,
+   "sym": null,
+   "name": null,
+   "basket": "[[\"0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3\",10000]]",
+   "distribute_bps": 10000,
+   "epoch_sec": 900,
+   "curve": null,
+   "creator": "0x56ace4fd45e0b693aac90bc6ea76d9d8a20f3f19",
+   "rounds_n": 0,
+   "last_round": null,
+   "next_payout": null,
+   "deployed_at": "1786632061",
+   "bound_at": null,
    "harvested": "0",
    "protocol_fees": "0",
    "creator_accrued": "0",
@@ -786,7 +799,7 @@
    "epoch_sec": 900,
    "curve": "0x1035320610a21f934a032e9901c5ca3482ac8c8a",
    "creator": "0xf549feabe7a5bb285ad3eb8652151c1f2838c072",
-   "rounds_n": 9,
+   "rounds_n": 8,
    "last_round": 1786605215,
    "next_payout": 1786606115,
    "deployed_at": "1786198986",
@@ -797,9 +810,9 @@
    "dist": [
     {
      "asset": "0x58ffe4a942d3885baa22d7520691f611ef09e7aa",
-     "n": 9,
-     "paid": 1.0921379527891049,
-     "spent": 0.24698897605431597
+     "n": 8,
+     "paid": 0.9874939600837256,
+     "spent": 0.22354835336938073
     }
    ]
   },
@@ -1560,7 +1573,7 @@
    "epoch_sec": 900,
    "curve": "0x22d0964388d341f37fc810c17c50425ae65b7be4",
    "creator": "0x15849b9caf8d02c536108b8eef94ef3290d61986",
-   "rounds_n": 19,
+   "rounds_n": 16,
    "last_round": 1786617162,
    "next_payout": 1786618062,
    "deployed_at": "1785884530",
@@ -1571,9 +1584,9 @@
    "dist": [
     {
      "asset": "0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec",
-     "n": 19,
-     "paid": 0.19057237423154674,
-     "spent": 0.1905723742315466
+     "n": 16,
+     "paid": 0.15745032417439292,
+     "spent": 0.1574503241743929
     }
    ]
   },
@@ -2089,38 +2102,19 @@
    "protocol_fees": "0",
    "creator_accrued": "0",
    "dist": []
-  },
-  {
-   "treasury": "0x826ea8abdd1261c9fc478a7c8e1b2ecae09a60e1",
-   "coin": null,
-   "sym": null,
-   "name": null,
-   "basket": "[[\"0x1b0E319c6A659F002271B69dB8A7df2F911c153E\",5000],[\"0x05b37Fb53A299a1b874A619e1c4C404D52C36F4C\",5000]]",
-   "distribute_bps": 9900,
-   "epoch_sec": 900,
-   "curve": null,
-   "creator": "0x5d128b309e4fe52227e64fffcb870904b75013f2",
-   "rounds_n": 0,
-   "last_round": null,
-   "next_payout": null,
-   "deployed_at": "1786104724",
-   "bound_at": null,
-   "harvested": "0",
-   "protocol_fees": "0",
-   "creator_accrued": "0",
-   "dist": []
   }
  ],
  "keeper": {
   "address": "0x179a1513adc677042654d904a0fb051577f67c4a",
-  "gas_eth": null,
-  "last_tx": "2026-08-13T11:36:16.000000Z",
-  "claims_in_sample": 1,
+  "gas_eth": 0.70094,
+  "last_tx": "2026-08-13T15:49:50.000000Z",
+  "claims_in_sample": 2,
   "methods": {
-   "0x4733aa85": 36,
-   "0x9aa3895d": 11,
-   "claimProtocol": 1,
-   "harvest": 1,
+   "0x9aa3895d": 26,
+   "0x4733aa85": 17,
+   "0xea485a48": 2,
+   "claimProtocol": 2,
+   "harvest": 2,
    "0x6330d827": 1
   }
  },
